@@ -91,6 +91,8 @@ public class Bicycle {
 
     // constructor method --> need a list of all
 
+    public Bicycle(){}  //define empty constructor
+
     public Bicycle(String theName, String theType, String theMaterial, String theColour, int theWeight, int theTyreDiameter, int theTopSpeed, int theTotalGears){
 
         this.name = theName;
@@ -106,35 +108,35 @@ public class Bicycle {
 
     // Methods for all bike objects
 
-    public int accelerate(int speed) {
+    public int accelerate() {
         // will increase the speed by 5mph
 
-        speed = getCurrentSpeed();
+        int speed = getCurrentSpeed();
         setCurrentSpeed(speed + 5);
         return currentSpeed;
     }
 
-    public int slowDown(int speed){
+    public int slowDown(){
         // will decrease the speed by 5mph
-        speed = getCurrentSpeed();
+        int speed = getCurrentSpeed();
         setCurrentSpeed(speed - 5);
         return currentSpeed;
     }
 
-    public int gearUp(int gear) {
+    public int gearUp() {
         // will shift one gear up (until you reach the highest gear which depends on the bike)
         // Mountain bikes have 7 gears and road bikes have 16 gears
 
-        gear = getCurrentGear();
+        int gear = getCurrentGear();
         setCurrentGear(gear + 1);
         return currentGear;
 
     }
 
-    public int gearDown(int gear) {
+    public int gearDown() {
         // will shift one gear down (until you reach the lowest gear which is 1)
 
-        gear = getCurrentGear();
+        int gear = getCurrentGear();
         setCurrentGear(gear - 1);
         return currentGear;
     }

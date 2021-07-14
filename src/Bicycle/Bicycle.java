@@ -15,7 +15,7 @@ public class Bicycle {
     private String type;
     private String material;
     private String colour;
-    private int weight;
+    private float weight;
     private int tyreDiameter;
 
     //other attributes
@@ -23,6 +23,7 @@ public class Bicycle {
     private int currentSpeed;
     private int totalGears;
     private int currentGear;
+    private double price;
 
 
     //declare accessor methods
@@ -46,10 +47,10 @@ public class Bicycle {
         this.colour = newColour;
     }
 
-    public int getWeight(){
+    public float getWeight(){
         return weight;
     }
-    public void setWeight(int newWeight){
+    public void setWeight(float newWeight){
         this.weight = newWeight;
     }
 
@@ -88,12 +89,19 @@ public class Bicycle {
         this.currentGear = newGear;
     }
 
+    public double getPrice(){
+        return price;
+    }
+    public void setPrice(int newPrice){
+        this.price = newPrice;
+    }
+
 
     // constructor method --> need a list of all
 
     public Bicycle(){}  //define empty constructor
 
-    public Bicycle(String theName, String theType, String theMaterial, String theColour, int theWeight, int theTyreDiameter, int theTopSpeed, int theTotalGears){
+    public Bicycle(String theName, String theType, String theMaterial, String theColour, float theWeight, int theTyreDiameter, int theTopSpeed, int theTotalGears, double thePrice){
 
         this.name = theName;
         this.type = theType;
@@ -103,6 +111,7 @@ public class Bicycle {
         this.tyreDiameter = theTyreDiameter;
         this.topSpeed = theTopSpeed;
         this.totalGears = theTotalGears;
+        this.price = thePrice;
     }
 
 

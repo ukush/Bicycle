@@ -96,6 +96,7 @@ public class Bicycle {
     // Methods for all bike objects
 
     public void showSpecs(){
+        System.out.println();
         System.out.println("Model Name: " + getName());
         System.out.println("Bicycle Type : " + getType());
         System.out.println("Material : " + getMaterial());

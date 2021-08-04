@@ -26,9 +26,7 @@ public class Inventory {
 
     public int SearchList(String nameOfBike){
         for (int i = 0; i < this.bikes.size(); i++) {
-            if (this.bikes.get(i).getName().equals(nameOfBike)) {
-                return i; // return the index of bike that matches
-            }
+            if (this.bikes.get(i).getName().equals(nameOfBike)) return i; // return the index of bike that matches
         }
         return -1;
     }

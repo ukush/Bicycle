@@ -29,14 +29,16 @@ public class Main {
         Bicycle bike5 = new Bicycle("x-caliber 8", "mountain", "carbon fibre", "matte black", 8.5f, 29f, 45, 21, 1300);
         Bicycle bike6 = new Bicycle("mongoose roscoe 7", "mountain", "steel", "racing red", 10.6f, 27.5f, 30, 7, 250);
 
-        // create an empty java collection (arrayList) and add the bicycle objects to it
-        ArrayList<Bicycle> bikes = new ArrayList<>();
-        bikes.add(bike1);
-        bikes.add(bike2);
-        bikes.add(bike3);
-        bikes.add(bike4);
-        bikes.add(bike5);
-        bikes.add(bike6);
+        // create instance of Inventory class to be able to use the methods
+        Inventory inv = new Inventory();
+
+        // add bikes to list
+        inv.addBicyclesToList(bike1);
+        inv.addBicyclesToList(bike2);
+        inv.addBicyclesToList(bike3);
+        inv.addBicyclesToList(bike4);
+        inv.addBicyclesToList(bike5);
+        inv.addBicyclesToList(bike6);
 
 
         //Map all keys to values using hashmap
@@ -63,21 +65,21 @@ public class Main {
                     int viewChoice = validateInput(2); //display menu and validate input and set return value of choice to viewChoice variable
                     if (viewChoice == 1) {
                         // print out the names of the bikes
-                        for (Bicycle bike : bikes) {
+                        for (Bicycle bike : inv.getList()) {
                             System.out.println(bike.getName());
                         }
                         System.out.println();
                         System.out.println("Select a bicycle to view the specifications:");
-                        int bikeChoice = validateInput(bikes.size());
+                        int bikeChoice = validateInput(inv.getList().size());
                         // find the object where index = bikeChoice and run the showSpecs() method for that object
-                        bikes.get(bikeChoice - 1).showSpecs(); // -1 to get the correct index since they start from 0
+                        inv.getList().get(bikeChoice - 1).showSpecs(); // -1 to get the correct index since they start from 0
                     } else { // because the input has already been validated, if it is not 1 it can only be 2 therefore no need for else-if etc.
                         boolean validIndex;
                         do {
                             System.out.println("Enter the name of the bicycle: ");
                             input.nextLine(); // clear scanner
                             String nameSearch = input.nextLine(); // take in user input for search
-                            int indexOfSearch = searchList(bikes, nameSearch); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
+                            int indexOfSearch = inv.SearchList(nameSearch); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
 
                             if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
                                 validIndex = false; // trigger the loop to ask again
@@ -85,7 +87,7 @@ public class Main {
                                 System.out.println("That bicycle could not be found. Please Try again.");
                             } else {
                                 validIndex = true; // stop the loop
-                                bikes.get(indexOfSearch).showSpecs(); // run the showSpecs method
+                                inv.getList().get(indexOfSearch).showSpecs(); // run the showSpecs method for the bicycle object in the arraylist found at the index returned
                             }
                         } while (!validIndex); // loop to ensure the object is found
                     }
@@ -97,7 +99,7 @@ public class Main {
                 } // end of case 1
                 case 2: {
                     Bicycle newBike = createNewBicycle(); //create new bicycle
-                    bikes.add(newBike); // add new bicycle to list
+                    inv.addBicyclesToList(newBike); // add new bicycle to list
                     System.out.println();
                     newBike.showSpecs(); // show specs of bike
                     System.out.println("Would you like to purchase this bicycle?");
@@ -108,17 +110,17 @@ public class Main {
                     boolean validIndex;
                     do {
                         System.out.println("Enter the name of the bicycle you want to remove");
-                        String removeName = input.nextLine();
-                        int indexOfSearch = searchList(bikes, removeName); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
+                        String searchName = input.nextLine();
+                        int indexOfSearch = inv.SearchList(searchName); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
                         if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
                             validIndex = false; // trigger the loop to ask again
                             input.nextLine(); // clear the scanner from the last input
                             System.out.println("That bicycle could not be found. Please Try again.");
                         } else {
                             validIndex = true; // stop the loop
-                            String nameOfRemovedBike = bikes.get(indexOfSearch).getName();
-                            System.out.println("You have removed " + "'"+ nameOfRemovedBike.toUpperCase() + "'" + " from the list");
-                            bikes.remove(bikes.get(indexOfSearch)); // get the object at the index and remove it from the list
+                            String nameOfBikeToBeRemoved = inv.getList().get(indexOfSearch).getName();
+                            System.out.println("You have removed " + nameOfBikeToBeRemoved.toUpperCase() + "'" + " from the list");
+                            inv.removeBicycleFromList(inv.getList().get(indexOfSearch)); // get the object at the index returned and remove it from the list
                         }
                     } while (!validIndex); // loop to ensure the object is found
 

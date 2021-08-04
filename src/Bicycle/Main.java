@@ -57,7 +57,7 @@ public class Main {
                 case 0:{
                     System.out.println("Thanks for visiting");
                     break; // 0 exits the switch statement
-                }
+                } // end of case 1
                 case 1: {
                     viewBicycleMenu();
                     int viewChoice = validateInput(2); //display menu and validate input and set return value of choice to viewChoice variable
@@ -66,6 +66,7 @@ public class Main {
                         for (Bicycle bike : bikes) {
                             System.out.println(bike.getName());
                         }
+                        System.out.println();
                         System.out.println("Select a bicycle to view the specifications:");
                         int bikeChoice = validateInput(bikes.size());
                         // find the object where index = bikeChoice and run the showSpecs() method for that object
@@ -87,16 +88,13 @@ public class Main {
                                 bikes.get(indexOfSearch).showSpecs(); // run the showSpecs method
                             }
                         } while (!validIndex); // loop to ensure the object is found
-
                     }
                     System.out.println();
                     System.out.println("Would you like to purchase this bicycle?");
-
-                    // if yes, we want to print the receipt
-
+                    // If yes, we want to print the receipt
                     break;
 
-                }
+                } // end of case 1
                 case 2: {
                     Bicycle newBike = createNewBicycle(); //create new bicycle
                     bikes.add(newBike); // add new bicycle to list
@@ -104,18 +102,31 @@ public class Main {
                     newBike.showSpecs(); // show specs of bike
                     System.out.println("Would you like to purchase this bicycle?");
                     break;
-                }
+                } // end of case 2
                 case 3: {
-                    System.out.println("Enter the name of the bicycle you want to remove");
-                    String removeName = input.nextLine();
+                    System.out.println();
+                    boolean validIndex;
+                    do {
+                        System.out.println("Enter the name of the bicycle you want to remove");
+                        String removeName = input.nextLine();
+                        int indexOfSearch = searchList(bikes, removeName); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
+                        if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
+                            validIndex = false; // trigger the loop to ask again
+                            input.nextLine(); // clear the scanner from the last input
+                            System.out.println("That bicycle could not be found. Please Try again.");
+                        } else {
+                            validIndex = true; // stop the loop
+                            String nameOfRemovedBike = bikes.get(indexOfSearch).getName();
+                            System.out.println("You have removed " + "'"+ nameOfRemovedBike.toUpperCase() + "'" + " from the list");
+                            bikes.remove(bikes.get(indexOfSearch)); // get the object at the index and remove it from the list
+                        }
+                    } while (!validIndex); // loop to ensure the object is found
 
                     break;
-                }
-            }
-        }while (choice!=0); // go back to main menu until the user selects the exit option
-    }
-
-//---------------------------------------------  END OF MAIN METHOD-------------------------------------------------------------------------------//
+                } // end of case 3
+            }// end of switch statement
+        } while (choice!=0); // go back to main menu until the user selects the exit option
+    } //---------------------------------------------  END OF MAIN METHOD-------------------------------------------------------------------------------//
     private static void welcome() {
         //application introduction
         System.out.println();

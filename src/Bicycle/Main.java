@@ -3,23 +3,17 @@ import java.util.*;
 
 public class Main {
 
-    //declare all the customisable options that the users will choose from when creating their own bicycle
-    private static final String[] types = {"road", "mountain"};
-    private static final String[] materials = {"aluminium", "steel", "titanium", "carbon fibre"};
-    private static final String[] colours = {"racing red", "volt blue", "gunmetal grey", "silver", "matte black"};
-    private static final float[] roadTyres = {22f, 25f, 28f};
-    private static final float[] mountainTyres = {26f, 27.5f, 29f};
-    private static final int[] prices = {119, 99, 129, 0, 179, 229, 35, 35, 50, 0, 50, 19, 0, 29, 29, 35, 39, 45, 55, 65, 85};
-    private static final int[] gears = {7, 12, 16, 21};
-
-    // Initialise hashmap which maps the customisation options to the price associated with each one
-    public static HashMap<Integer, Integer> customPrices = new HashMap<>();
 
     // Initialise scanner object
-    private static final Scanner input = new Scanner(System.in);
+    public static final Scanner input = new Scanner(System.in);
+
+    // create instance of Inventory class to be able to use the methods
+    public static Inventory inv = new Inventory();
+
 
     //---------------------------------------------------start of main method-----------------------------------------------------------------------------//
     public static void main(String[] args) {
+
 
         // Initialise some Bicycle objects that the user can choose from if they do not want to create their own
         Bicycle bike1 = new Bicycle("allez e5 elite", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45, 21, 1250);
@@ -29,22 +23,14 @@ public class Main {
         Bicycle bike5 = new Bicycle("x-caliber 8", "mountain", "carbon fibre", "matte black", 8.5f, 29f, 45, 21, 1300);
         Bicycle bike6 = new Bicycle("mongoose roscoe 7", "mountain", "steel", "racing red", 10.6f, 27.5f, 30, 7, 250);
 
-        // create instance of Inventory class to be able to use the methods
-        Inventory inv = new Inventory();
 
-        // add bikes to list
+        // add bikes to list using the addBicycleToList method in the inventory class
         inv.addBicyclesToList(bike1);
         inv.addBicyclesToList(bike2);
         inv.addBicyclesToList(bike3);
         inv.addBicyclesToList(bike4);
         inv.addBicyclesToList(bike5);
         inv.addBicyclesToList(bike6);
-
-
-        //Map all keys to values using hashmap
-        for (int i = 0; i < prices.length; i++) {
-            customPrices.put((i + 1), prices[i]);
-        }
 
 
         int choice;
@@ -174,64 +160,6 @@ public class Main {
     }
 
 
-    private static int getPrices(int userInput) {
-        return customPrices.get(userInput);
-    }
-
-    private static int addPrices(int price1, int price2, int price3, int price4, int price5) {
-        return price1 + price2 + price3 + price4 + price5;
-    }
-
-    private static void printMaterials(int bikeType, String[] array) {
-        for (int i = 0; i < array.length; i++) {
-            System.out.print((i + 1) + ". " + array[i]);
-
-            if (bikeType == 1) {
-                if (i == 3) {
-                    System.out.println("(recommended)");
-                } else {
-                    System.out.println();
-                }
-
-            } else {
-                if (i == 0) {
-                    System.out.println("(recommended)");
-                } else {
-                    System.out.println();
-                }
-            }
-
-        }
-    }
-
-    private static void printColours(String[] array) {
-        for (int i = 0; i < array.length; i++) {
-            System.out.print((i + 1) + ". " + array[i]);
-            System.out.println();
-        }
-    }
-
-    private static void printTyreDiameters(float[] array) {
-        for (int i = 0; i < array.length; i++) {
-            System.out.print((i + 1) + ". " + array[i] + "\"");
-            System.out.println();
-        }
-    }
-
-    private static void printTypes(String[] array) {
-        for (int i = 0; i < array.length; i++) {
-            System.out.println((i + 1) + ". " + array[i] + " bike");
-        }
-
-    }
-
-    private static void printGears(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            System.out.println((i + 1) + ". " + array[i]);
-        }
-
-    }
-
     private static int validateInput(int numberOfOptions) {
 
         boolean isInputValid;
@@ -257,6 +185,10 @@ public class Main {
     }
 
     private static Bicycle createNewBicycle() {
+
+        // declare new instance of customisation class to use the methods
+        Customisation custom = new Customisation();
+
         System.out.println("Create your own custom bicycle!");
         //display options to user to create custom bike
 
@@ -265,15 +197,15 @@ public class Main {
         String selectedName = input.nextLine();
 
         System.out.println("Select the type of bike:");
-        printTypes(types);
+        custom.printTypes(custom.getTypeOptions());
         int choice1 = validateInput(2);
-        String selectedType = types[choice1 - 1];
+        String selectedType = custom.getTypeOptions()[choice1 - 1];
 
 
         System.out.println("Select the frame material:");
-        printMaterials(choice1, materials);
+        custom.printMaterials(choice1 ,custom.getMaterialOptions());
         int choice2 = validateInput(4);
-        String selectedMaterial = materials[choice2 - 1];
+        String selectedMaterial = custom.getMaterialOptions()[choice2 - 1];
 
         // assign the weight and top speeds based on the material
         float bikeWeight = 0;
@@ -299,34 +231,35 @@ public class Main {
 
 
         System.out.println("Select the colour:");
-        printColours(colours);
+        custom.printColours(custom.getColourOptions());
         int choice3 = validateInput(5);
-        String selectedColour = colours[choice3 - 1];
+        String selectedColour = custom.getColourOptions()[choice3 - 1];
 
         System.out.println("Select the tyre diameter:");
 
         if (choice1 == 1) {
-            printTyreDiameters(roadTyres);
+            custom.printTyreDiameters(custom.getRoadTyreDiameters()); // print out road bike tyre diameters
         } else {
-            printTyreDiameters(mountainTyres);
+            custom.printTyreDiameters(custom.getMountainTyreDiameters()); // print out mountain bike tyre diameters
         }
         int choice4 = validateInput(3);
 
         float selectedDiameter;
         if (choice1 == 1) {
-            selectedDiameter = roadTyres[choice4 - 1];
+            selectedDiameter = custom.getRoadTyreDiameters()[choice4 - 1];
         } else {
-            selectedDiameter = mountainTyres[choice4 - 1];
+            selectedDiameter = custom.getMountainTyreDiameters()[choice4 - 1];
         }
 
         System.out.println("Select the number of gears you want to have");
-        printGears(gears);
+        custom.printGears(custom.getGearsAvailable());
         int choice5 = validateInput(4);
-        int selectedGear = gears[choice5 - 1];
+        int selectedGear = custom.getGearsAvailable()[choice5 - 1];
 
+        custom.mapChoicesToPrices(); // map choices to prices, weight and top speed
 
         // calculate total price of the bike created
-        int totalPrice = addPrices(getPrices(choice1), getPrices(choice2), getPrices(choice3), getPrices(choice4), getPrices(choice5));
+        int totalPrice = custom.addPrices(custom.getPrices(choice1), custom.getPrices(choice2), custom.getPrices(choice3),custom.getPrices(choice4), custom.getPrices(choice5));
 
         // use all selected attributes in bicycle constructor method to create a new Bicycle object
         // add this new Bicycle object to the arrayList of stored Bicycles

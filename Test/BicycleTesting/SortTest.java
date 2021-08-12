@@ -6,6 +6,7 @@ import jdk.jfr.Description;
 import org.junit.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SortTest {
 
@@ -69,17 +70,44 @@ public class SortTest {
     public void copyOriginalList(){
         // The reverse of a list containing a single object is just the same as returning the list
         System.out.println("Running Copy list Test Case...");
+        System.out.println();
         ArrayList<Bicycle> expected = testList;
         ArrayList<Bicycle> actual = testInventory.copyList(testList);
         Assert.assertEquals(expected, actual);
     }
 
-    @Description("This test will add another object to the list and start the recursion algorithm by switching " +
-            "the order of the two objects")
+    @Description("")
     @Test
     public void returnListWithTwoObjects(){
-        testInventory.ReverseTwoObjects(testList);
+        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
+        Assert.assertEquals(expected, testInventory.copyListWithTwoObjects(testList));
     }
+
+    @Description("")
+    @Test
+    public void returnReversedListWithoutRecursion(){
+        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
+        Collections.reverse(expected); // reverse the order using the Collections.reverse() method
+        Assert.assertEquals(expected, testInventory.ReverseListWithoutRecursion(testList));
+    }
+
+    @Description("")
+    @Test
+    public void returnReversedListWithTwoObjects(){
+        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
+        Collections.reverse(expected); // reverse the order using the Collections.reverse() method
+        Assert.assertEquals(expected, testInventory.ReverseListWithTwoObjectsUsingTempObject(testList));
+    }
+
+    @Description("")
+    @Test
+    public void returnReversedListUsingRecursion(){
+        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
+        Collections.reverse(expected); // reverse the order using the Collections.reverse() method
+        Assert.assertEquals(expected, testInventory.ReverseListUsingRecursion(testList));
+    }
+
+
 
 
 }

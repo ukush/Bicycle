@@ -1,6 +1,7 @@
 package Bicycle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class BicycleInventory {
     /**
@@ -32,6 +33,8 @@ public class BicycleInventory {
     }
 
 
+    //--------------------------------------Test Methods-----------------------------------------------------------------------//
+
     public ArrayList<Bicycle> copyList(ArrayList<Bicycle> originalList) {
         // create a new list that is the same as the original list
         ArrayList<Bicycle> copiedList  = new ArrayList<>(originalList);
@@ -40,7 +43,7 @@ public class BicycleInventory {
         return copiedList;
     }
 
-    public ArrayList<Bicycle> ReverseTwoObjects(ArrayList<Bicycle> originalList) {
+    public ArrayList<Bicycle> copyListWithTwoObjects(ArrayList<Bicycle> originalList) {
         // create a new list that is the same as the original list
         ArrayList<Bicycle> copiedList  = new ArrayList<>(originalList);
 
@@ -50,10 +53,6 @@ public class BicycleInventory {
             System.out.print(bicycle.getName() + ", ");
         }
         System.out.println();
-
-
-        // reverse the list
-
 
         // print out the copied List
         System.out.println("Copied List: ");
@@ -66,6 +65,76 @@ public class BicycleInventory {
         return copiedList;
     }
 
+    public ArrayList<Bicycle> ReverseListWithReverseMethod(ArrayList<Bicycle> originalList) {
+        // create a new list that is the same as the original list
+        ArrayList<Bicycle> copiedList  = new ArrayList<>(originalList);
+
+        // print out the original List
+        System.out.println("Original List: ");
+        for (Bicycle bicycle : originalList) {
+            System.out.print(bicycle.getName() + ", ");
+        }
+        System.out.println();
+        System.out.println();
+
+        // print out the copied List
+        System.out.println("Copied List: ");
+        for (Bicycle bicycle : copiedList) {
+            System.out.print(bicycle.getName() + ", ");
+        }
+        System.out.println();
+        System.out.println();
+
+        Collections.reverse(copiedList); // reverse the list without recursion
+
+        // print out the reversed copied List
+        System.out.println("Reversed Copied List: ");
+        for (Bicycle bicycle : copiedList) {
+            System.out.print(bicycle.getName() + ", ");
+        }
+        System.out.println();
+        System.out.println();
+
+
+        return copiedList;
+    }
+
+
+    public ArrayList<Bicycle> ReverseListWithTwoObjectsBySwapping(ArrayList<Bicycle> originalList) {
+        // create a new list that is the same as the original list
+        ArrayList<Bicycle> copiedList  = new ArrayList<>(originalList);
+
+        // print out the original List
+        System.out.println("Original List: ");
+        for (Bicycle bicycle : originalList) {
+            System.out.print(bicycle.getName() + ", ");
+        }
+        System.out.println();
+        System.out.println();
+
+        // print out the copied List
+        System.out.println("Copied List: ");
+        for (Bicycle bicycle : copiedList) {
+            System.out.print(bicycle.getName() + ", ");
+        }
+        System.out.println();
+        System.out.println();
+
+        // reverse the two objects in the list
+        Collections.swap(copiedList, 0, 1);
+
+
+        // print out the reversed copied List
+        System.out.println("Reversed Copied List: ");
+        for (Bicycle bicycle : copiedList) {
+            System.out.print(bicycle.getName() + ", ");
+        }
+        System.out.println();
+        System.out.println();
+
+
+        return copiedList;
+    }
 
 
 }

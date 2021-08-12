@@ -8,7 +8,7 @@ public class Main {
     public static final Scanner input = new Scanner(System.in);
 
     // create instance of Inventory class to be able to use the methods
-    public static Inventory inv = new Inventory();
+    public static BicycleInventory inv = new BicycleInventory();
 
 
     //---------------------------------------------------start of main method-----------------------------------------------------------------------------//

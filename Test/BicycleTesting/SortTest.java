@@ -76,6 +76,7 @@ public class SortTest {
         Assert.assertEquals(expected, actual);
     }
 
+
     @Description("")
     @Test
     public void returnListWithTwoObjects(){
@@ -88,7 +89,7 @@ public class SortTest {
     public void returnReversedListWithoutRecursion(){
         ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
         Collections.reverse(expected); // reverse the order using the Collections.reverse() method
-        Assert.assertEquals(expected, testInventory.ReverseListWithoutRecursion(testList));
+        Assert.assertEquals(expected, testInventory.ReverseListWithReverseMethod(testList));
     }
 
     @Description("")
@@ -96,7 +97,7 @@ public class SortTest {
     public void returnReversedListWithTwoObjects(){
         ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
         Collections.reverse(expected); // reverse the order using the Collections.reverse() method
-        Assert.assertEquals(expected, testInventory.ReverseListWithTwoObjectsUsingTempObject(testList));
+        Assert.assertEquals(expected, testInventory.ReverseListWithTwoObjectsBySwapping(testList));
     }
 
     @Description("")
@@ -104,7 +105,7 @@ public class SortTest {
     public void returnReversedListUsingRecursion(){
         ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
         Collections.reverse(expected); // reverse the order using the Collections.reverse() method
-        Assert.assertEquals(expected, testInventory.ReverseListUsingRecursion(testList));
+        //Assert.assertEquals(expected, testInventory.sortUsingRecursion(testList));
     }
 
 

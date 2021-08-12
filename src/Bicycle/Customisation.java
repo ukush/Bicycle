@@ -11,7 +11,7 @@ public class Customisation {
 
 
     // Initialise hashmap which maps the customisation options to the price associated with each one
-    public HashMap<Integer, Integer> customPrices = new HashMap<>();
+    private HashMap<Integer, Integer> customPrices = new HashMap<>();
 
     //declare all the customisable options that the users will choose from when creating their own bicycle
     private final String[] typeOfBikes = {"road", "mountain"};
@@ -22,34 +22,43 @@ public class Customisation {
     private final int[] pricesForCustomisations = {119, 99, 129, 0, 179, 229, 35, 35, 50, 0, 50, 19, 0, 29, 29, 35, 39, 45, 55, 65, 85};
     private final int[] gearsAvailable = {7, 12, 16, 21};
 
-    //define getters for each of these arrays
-
+    //define getters for each of these arrays. Copy the values of these into another array and access the copied values instead. This provides extra security for the options.
     public String[] getTypeOptions(){
-        return typeOfBikes;
+        String[] copy = new String[this.typeOfBikes.length];
+        System.arraycopy(this.typeOfBikes, 0, copy, 0, copy.length);
+        return copy;
     }
 
     public String[] getMaterialOptions(){
-        return materialsAvailable;
+        String[] copy = new String[this.materialsAvailable.length];
+        System.arraycopy(this.materialsAvailable, 0, copy, 0, copy.length);
+        return copy;
     }
 
     public String[] getColourOptions(){
-        return coloursAvailable;
+
+        String[] copy = new String[this.coloursAvailable.length];
+        System.arraycopy(this.coloursAvailable, 0, copy, 0, copy.length);
+        return copy;
     }
 
     public float[] getRoadTyreDiameters(){
-        return roadTyreDiameters;
+        float[] copy = new float[this.roadTyreDiameters.length];
+        System.arraycopy(this.roadTyreDiameters, 0, copy, 0, copy.length);
+        return copy;
     }
 
     public float[] getMountainTyreDiameters(){
-        return mountainTyreDiameters;
-    }
-
-    public int[] getPricesForCustomisations(){
-        return pricesForCustomisations;
+        float[] copy = new float[this.mountainTyreDiameters.length];
+        System.arraycopy(this.mountainTyreDiameters, 0, copy, 0, copy.length);
+        return copy;
     }
 
     public int[] getGearsAvailable(){
-        return gearsAvailable;
+
+        int[] copy = new int[this.gearsAvailable.length];
+        System.arraycopy(this.gearsAvailable, 0, copy, 0, copy.length);
+        return copy;
     }
 
     public void printTypes(String[] array) {
@@ -111,7 +120,9 @@ public class Customisation {
     }
 
     public int getPrices(int userInput) {
-        return customPrices.get(userInput);
+        //make a copy of the hashmap
+        HashMap<Integer, Integer> copyPrices = new HashMap<>(customPrices);
+        return copyPrices.get(userInput); // return the copied value.
     }
 
     public int addPrices(int price1, int price2, int price3, int price4, int price5) {

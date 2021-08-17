@@ -74,8 +74,6 @@ public class Main {
                         }
                         break;
                     }
-
-
                     } else { // because the input has already been validated, if it is not 1 it can only be 2 therefore no need for else-if etc.
 
 //------------------------------------------- Search Bicycle By Name------------------------------------------------------------//
@@ -110,6 +108,9 @@ public class Main {
 // --------------------------------------Create Custom Bicycle--------------------------------------------------------------------------------//
                 case 2: {
                     Bicycle newBike = createNewBicycle(); //create new bicycle
+                    //check if the bike exists
+                    //if the bike exists --> That already exists
+                    //if not --> add to list
                     inv.addBicyclesToList(newBike); // add new bicycle to list
                     System.out.println();
                     newBike.showSpecs(); // show specs of bike

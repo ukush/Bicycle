@@ -46,27 +46,45 @@ public class Main {
                     System.out.println("Thanks for visiting");
                     break; // 0 exits the switch statement
                 } // end of case 1
+//--------------------------------------View Bikes--------------------------------------------------------------------------------//
                 case 1: {
                     viewBicycleMenu();
                     int viewChoice = validateInput(2); //display menu and validate input and set return value of choice to viewChoice variable
                     if (viewChoice == 1) {
+
                         // print out the names of the bikes
                         for (Bicycle bike : inv.getList()) {
-                            System.out.println(bike.getName());
+                            System.out.println((inv.getList().indexOf(bike) + 1) + "." + bike.getName());
                         }
-                        System.out.println();
-                        System.out.println("Select a bicycle to view the specifications:");
-                        int bikeChoice = validateInput(inv.getList().size());
-                        // find the object where index = bikeChoice and run the showSpecs() method for that object
-                        inv.getList().get(bikeChoice - 1).showSpecs(); // -1 to get the correct index since they start from 0
+
+                        System.out.println("\n1. View technical specifications\n2. Display list in reverse order:");
+                        int selection = validateInput(2);
+                        if (selection == 1) {
+                            System.out.println("Select a bicycle to view the technical specifications: ");
+                            int bikeChoice = validateInput(inv.getList().size());
+                            // find the object where index = bikeChoice and run the showSpecs() method for that object
+                            inv.getList().get(bikeChoice - 1).showSpecs(); // -1 to get the correct index since they start from 0
+                        }
+                    else {
+//------------------------------------------Reverse List Order-----------------------------------------------------------------//
+                        ArrayList<Bicycle> reversedList = new ArrayList<Bicycle>(inv.getList()); // make a copy of the list
+                        inv.reverseListRecursively(reversedList, 0, reversedList.size() - 1); // reverse the list
+                        for (Bicycle bike : reversedList) { //display reversed list
+                            System.out.println((reversedList.indexOf(bike) + 1) + "." + bike.getName());
+                        }
+                        break;
+                    }
+
+
                     } else { // because the input has already been validated, if it is not 1 it can only be 2 therefore no need for else-if etc.
+
+//------------------------------------------- Search Bicycle By Name------------------------------------------------------------//
                         boolean validIndex;
                         do {
                             System.out.println("Enter the name of the bicycle: ");
                             input.nextLine(); // clear scanner
                             String nameSearch = input.nextLine(); // take in user input for search
                             int indexOfSearch = inv.SearchList(nameSearch); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
-
                             if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
                                 validIndex = false; // trigger the loop to ask again
                                 input.nextLine(); // clear the scanner from the last input
@@ -78,19 +96,34 @@ public class Main {
                         } while (!validIndex); // loop to ensure the object is found
                     }
                     System.out.println();
-                    System.out.println("Would you like to purchase this bicycle?");
-                    // If yes, we want to print the receipt
+                    System.out.println("Would you like to purchase this bicycle?\n1. Yes\n2. No");
+                    int purchaseChoice = validateInput(2);
+                    if (purchaseChoice==1) {
+                        System.out.println("Thanks for your purchase.\nWould you like a receipt?");
+                    }
+                    else{
+                        break;
+                    }
                     break;
-
-                } // end of case 1
+                }
+                // end of case 1
+// --------------------------------------Create Custom Bicycle--------------------------------------------------------------------------------//
                 case 2: {
                     Bicycle newBike = createNewBicycle(); //create new bicycle
                     inv.addBicyclesToList(newBike); // add new bicycle to list
                     System.out.println();
                     newBike.showSpecs(); // show specs of bike
-                    System.out.println("Would you like to purchase this bicycle?");
+                    System.out.println("Would you like to purchase this bicycle?\n1. Yes\n2. No");
+                    int purchaseChoice = validateInput(2);
+                    if (purchaseChoice==1) {
+                        System.out.println("Thanks for your purchase.\nWould you like a receipt?");
+                    }
+                    else{
+                        break;
+                    }
                     break;
                 } // end of case 2
+// --------------------------------------Remove Bicycle from List--------------------------------------------------------------------------------//
                 case 3: {
                     System.out.println();
                     boolean validIndex;
@@ -109,7 +142,6 @@ public class Main {
                             inv.removeBicycleFromList(inv.getList().get(indexOfSearch)); // get the object at the index returned and remove it from the list
                         }
                     } while (!validIndex); // loop to ensure the object is found
-
                     break;
                 } // end of case 3
             }// end of switch statement
@@ -118,21 +150,15 @@ public class Main {
     private static void welcome() {
         //application introduction
         System.out.println();
-        System.out.println("Welcome to Atom Cycle Centre");
-        System.out.println("Select from the options below: ");
+        System.out.println("Welcome to Atom Cycle Centre\nSelect from the options below:");
     }
 
     private static void displayMenu() {
-        System.out.println("1. View Bicycles");
-        System.out.println("2. Create Custom Bicycle");
-        System.out.println("3. Remove Bicycle from Store");
-        System.out.println("0. Exit");
+        System.out.println("1. View Bicycles\n2. Create Custom Bicycle\n3. Remove Bicycle from Store\n0. Exit");
     }
 
     private static void viewBicycleMenu() {
-        System.out.println("Would you like to:");
-        System.out.println("1. View all bicycles");
-        System.out.println("2. Search for bicycles by name");
+        System.out.println("Would you like to:\n1. View all bicycles\n2. Search for bicycles by name");
     }
 
     private static int validateMainMenuInput() {

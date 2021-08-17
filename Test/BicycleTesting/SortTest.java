@@ -41,74 +41,106 @@ public class SortTest {
     }
 
 
-    @Description("Sets up the list by adding the objects")
+    @Description("")
     @Before
     public void setUp() throws Exception{
         System.out.println("Adding Objects to Test List...");
-        // add another bike to the list
-        Bicycle testBike2 = new Bicycle("Test Bike 2", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45, 21, 1250);
-        testList.add(testBike2); // Now the list has two bicycle objects
     }
 
     @Description("Sets up the list by adding the objects")
     @AfterClass
     public static void OneTimeTearDown() throws Exception{
-        System.out.println("Clear Test List...");
+        System.out.println("Clearing Test List...");
         testList.clear(); // remove all objects from the list
     }
 
     @Description("The base case is to reverse a list that contains a single object")
     @Test
     public void failTest() throws AssertionError{
-        System.out.println("Running Fail Test Case...");
+        System.out.println("Running Fail Test Case...\n-------------------------------------------");
         Assert.fail();
     }
 
-
-    @Description("The base case is to reverse a list that contains a single object")
+    @Description("The base case is to return a list that contains a single object")
     @Test
-    public void copyOriginalList(){
-        // The reverse of a list containing a single object is just the same as returning the list
-        System.out.println("Running Copy list Test Case...");
-        System.out.println();
+    public void returnListThatContainsASingleObject(){
+        System.out.println("Running Return List Test Case...\n-------------------------------------------");
         ArrayList<Bicycle> expected = testList;
-        ArrayList<Bicycle> actual = testInventory.copyList(testList);
+        ArrayList<Bicycle> actual = testInventory.returnListWithSingleObject(testList);
         Assert.assertEquals(expected, actual);
+        System.out.println("End Of Test Case...\n-------------------------------------------");
     }
 
-
-    @Description("")
+    @Description("This method will swap the first and last elements of an arrayList by manually setting the indexes")
     @Test
-    public void returnListWithTwoObjects(){
-        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
-        Assert.assertEquals(expected, testInventory.copyListWithTwoObjects(testList));
+    public void swapElementsTest(){
+        System.out.println("Running Copy Element From List Test Case...\n-------------------------------------------");
+
+        //create and add another object to the test list
+        Bicycle testBike2 = new Bicycle("Test Bike 2", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45,21, 1250);
+        testList.add(testBike2);
+        System.out.println("Original Order: ");
+        for (Bicycle bike: testList){
+            System.out.println(bike.getName());
+        }
+
+        Assert.assertEquals(testList, testInventory.swapFirstAndLastElements(testList, 0, testList.size()-1));
+
+
+        System.out.println("End Of Test Case...\n-------------------------------------------");
+
     }
 
-    @Description("")
+    @Description("This method will swap the first and last elements of an arrayList using the Collections.swap()")
     @Test
-    public void returnReversedListWithoutRecursion(){
-        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
-        Collections.reverse(expected); // reverse the order using the Collections.reverse() method
-        Assert.assertEquals(expected, testInventory.ReverseListWithReverseMethod(testList));
+    public void swapElementsSimple(){
+        System.out.println("Running Copy Element From List Test Case...\n-------------------------------------------");
+
+        //create and add another object to the test list
+        Bicycle testBike2 = new Bicycle("Test Bike 2", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45,21, 1250);
+        testList.add(testBike2);
+        System.out.println("Original Order: ");
+        for (Bicycle bike: testList){
+            System.out.println(bike.getName());
+        }
+
+        Assert.assertEquals(testList, testInventory.swapFirstAndLastElements(testList, 0, testList.size()-1));
+
+
+        System.out.println("End Of Test Case...\n-------------------------------------------");
+
     }
 
-    @Description("")
+    @Description("This method will retrieve the last element from the original list and copy it into an empty list")
     @Test
-    public void returnReversedListWithTwoObjects(){
-        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
-        Collections.reverse(expected); // reverse the order using the Collections.reverse() method
-        Assert.assertEquals(expected, testInventory.ReverseListWithTwoObjectsBySwapping(testList));
+    public void reverseListRecursively(){
+        //create and add another object to the test list
+        Bicycle testBike2 = new Bicycle("Test Bike 2", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45,21, 1250);
+        testList.add(testBike2);
+
+        //create and add another object to the test list
+        Bicycle testBike3 = new Bicycle("Test Bike 3", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45,21, 1250);
+        testList.add(testBike3);
+
+        System.out.println("Running Reverse List Recursively Test Case...\nOriginal Order: ");
+        for (Bicycle bike: testList){
+            System.out.println(bike.getName());
+        }
+
+        ArrayList<Bicycle> actual = new ArrayList<Bicycle>(testList); //create a copy of the test list
+
+        testInventory.reverseListRecursively(actual, 0, testList.size()-1); //run the reverse list method
+        Collections.reverse(testList); // reverse the test list to use for comparison
+
+        System.out.println("Reversed Order: ");
+        for (Bicycle bike: actual){
+            System.out.println(bike.getName());
+        }
+
+        Assert.assertEquals(testList, actual); // compare the reversed list using Collections.reverse() and the reverseListRecursively()
+
+        System.out.println("End Of Test Case...\n-------------------------------------------");
     }
-
-    @Description("")
-    @Test
-    public void returnReversedListUsingRecursion(){
-        ArrayList<Bicycle> expected = new ArrayList<>(testList); // create a new arraylist and copy the test list values
-        Collections.reverse(expected); // reverse the order using the Collections.reverse() method
-        //Assert.assertEquals(expected, testInventory.sortUsingRecursion(testList));
-    }
-
-
 
 
 }

@@ -111,7 +111,9 @@ public class Main {
                     //check if the bike exists
                     //if the bike exists --> That already exists
                     //if not --> add to list
+
                     inv.addBicyclesToList(newBike); // add new bicycle to list
+
                     System.out.println();
                     newBike.showSpecs(); // show specs of bike
                     System.out.println("Would you like to purchase this bicycle?\n1. Yes\n2. No");

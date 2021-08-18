@@ -139,7 +139,7 @@ public class Main {
                         } else {
                             validIndex = true; // stop the loop
                             String nameOfBikeToBeRemoved = inv.getList().get(indexOfSearch).getName();
-                            System.out.println("You have removed " + nameOfBikeToBeRemoved.toUpperCase() + "'" + " from the list");
+                            System.out.println("You have removed " + "'" + nameOfBikeToBeRemoved.toUpperCase() + "'" + " from the list");
                             inv.removeBicycleFromList(inv.getList().get(indexOfSearch)); // get the object at the index returned and remove it from the list
                         }
                     } while (!validIndex); // loop to ensure the object is found

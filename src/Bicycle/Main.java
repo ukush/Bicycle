@@ -107,21 +107,18 @@ public class Main {
                 // end of case 1
 // --------------------------------------Create Custom Bicycle--------------------------------------------------------------------------------//
                 case 2: {
-
                     Bicycle newBike = createNewBicycle(); //create new bicycle
-
                     if (inv.checkForDuplicateBicycles(inv.getList(), newBike)){
                         Bicycle duplicatedBicycle = inv.returnDuplicatedBicycle(inv.getList(), newBike);
-                        System.out.println("That Bicycle already exists under the name " + "\"" + duplicatedBicycle.getName().toUpperCase() + "\"");
+                        System.out.println("We have a bicycle called " + "\"" + duplicatedBicycle.getName().toUpperCase() + "\" that exactly matches the custom bicycle you've just made.");
                         System.out.println("""
-                            Since we already have a bicycle that matches your custom one, would you like to view the specifications?
+                            Would you like to view its specifications?
                             1. Yes
                             2. No""");
                         int viewSpecs = validateInput(2);
                         if (viewSpecs == 1){
                             duplicatedBicycle.showSpecs();
                         }
-
                     }
                     else {
                         System.out.println("Nice ride, we're creating your custom bicycle now!");
@@ -129,7 +126,6 @@ public class Main {
                         System.out.println();
                         newBike.showSpecs(); // show specs of bike
                     }
-
                     System.out.println("""
                             Would you like to purchase this bicycle?
                             1. Yes

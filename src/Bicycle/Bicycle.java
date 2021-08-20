@@ -92,11 +92,9 @@ public class Bicycle {
         this.price = thePrice;
     }
 
-
     // Methods for all bike objects
 
     public void showSpecs(){
-        System.out.println();
         System.out.println("Model Name: " + getName());
         System.out.println("Bicycle Type : " + getType());
         System.out.println("Material : " + getMaterial());
@@ -108,6 +106,22 @@ public class Bicycle {
         System.out.println("Price: £" + getPrice());
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (this==obj){
+            return true;
+        }
+        if (obj == null || this.getClass() !=obj.getClass()){
+            return false;
+        }
+
+        Bicycle b = (Bicycle)obj;
+
+        return this.getType().equals(b.getType()) && this.getMaterial().equals(b.getMaterial())
+                && this.getColour().equals(b.getColour()) && this.getWeight()==b.getWeight()
+                && this.getTopSpeed()==b.getTopSpeed() && this.getTyreDiameter()==b.getTyreDiameter()
+                && this.getPrice()==b.getPrice() && this.getTotalGears()==b.getTotalGears();
+    }
 
 
 }

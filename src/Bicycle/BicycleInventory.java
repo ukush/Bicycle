@@ -18,17 +18,19 @@ public class BicycleInventory {
     private ArrayList<Bicycle> bikes = new ArrayList<>();
 
     // Use a getter method in order to retrieve the list from other classes without having access to the actual list itself
-    public ArrayList<Bicycle> getList(){ return bikes; }
+    public ArrayList<Bicycle> getList() {
+        return bikes;
+    }
 
     public void addBicyclesToList(Bicycle bikeToAdd) {
         this.bikes.add(bikeToAdd);
     }
 
-    public void removeBicycleFromList(Bicycle bikeToRemove){
+    public void removeBicycleFromList(Bicycle bikeToRemove) {
         this.bikes.remove(bikeToRemove);
     }
 
-    public int SearchList(String nameOfBike){
+    public int searchList(String nameOfBike) {
         for (int i = 0; i < this.bikes.size(); i++) {
             if (this.bikes.get(i).getName().equals(nameOfBike)) return i; // return the index of bike that matches
         }
@@ -36,62 +38,80 @@ public class BicycleInventory {
     }
 
 
-    //--------------------------------------Test Methods-----------------------------------------------------------------------//
+        //--------------------------------------Test Methods-----------------------------------------------------------------------//
 
-    public ArrayList<Bicycle> returnListWithSingleObject(ArrayList<Bicycle> originalList) {
+        public ArrayList<Bicycle> returnCopyOfListWithSingleObject(ArrayList<Bicycle> originalList) {
 
-        // print out the original List
-        System.out.println("Returned List: ");
-        for (Bicycle bicycle : originalList) {
-            System.out.print(bicycle.getName());
-        }
-        System.out.println();
+            // print out the original List
+            System.out.println("Returned List: ");
+            for (Bicycle bicycle : originalList) {
+                System.out.print(bicycle.getName());
+            }
+            System.out.println();
 
-        return originalList;
-    }
-
-    public ArrayList<Bicycle> swapFirstAndLastElements(ArrayList<Bicycle> copiedList, int startIndex, int endIndex){
-
-        Bicycle temp = copiedList.get(startIndex); // save the first object
-        copiedList.set(startIndex, copiedList.get(endIndex)); //set the start index to the object at the last index
-        copiedList.set(endIndex, temp); // set the object at last index to saved first object
-
-
-        System.out.println("Swapped Order: ");
-        for (Bicycle bike: copiedList){
-            System.out.println(bike.getName());
+            return originalList;
         }
 
-        return copiedList;
-    }
-    public ArrayList<Bicycle> swapFirstAndLastElements2(ArrayList<Bicycle> copiedList, int startIndex, int endIndex){
+        public ArrayList<Bicycle> swapFirstAndLastElements (ArrayList < Bicycle > copiedList,int startIndex,
+        int endIndex){
 
-        Collections.swap(copiedList, startIndex, endIndex);
+            Bicycle temp = copiedList.get(startIndex); // save the first object
+            copiedList.set(startIndex, copiedList.get(endIndex)); //set the start index to the object at the last index
+            copiedList.set(endIndex, temp); // set the object at last index to saved first object
 
-        System.out.println("Swapped Order: ");
-        for (Bicycle bike: copiedList){
-            System.out.println(bike.getName());
+
+            System.out.println("Swapped Order: ");
+            for (Bicycle bike : copiedList) {
+                System.out.println(bike.getName());
+            }
+
+            return copiedList;
+        }
+        public ArrayList<Bicycle> swapFirstAndLastElements2 (ArrayList < Bicycle > copiedList,int startIndex,
+        int endIndex){
+
+            Collections.swap(copiedList, startIndex, endIndex);
+
+            System.out.println("Swapped Order: ");
+            for (Bicycle bike : copiedList) {
+                System.out.println(bike.getName());
+            }
+
+            return copiedList;
         }
 
-        return copiedList;
-    }
+        public void reverseListRecursively (ArrayList < Bicycle > copiedList,int startIndex, int endIndex){
 
-    public void reverseListRecursively(ArrayList<Bicycle> copiedList, int startIndex, int endIndex) {
+            if (startIndex >= endIndex) { //base case
+                return;
+            }
 
-        if (startIndex>=endIndex){ //base case
-            return;
+            Collections.swap(copiedList, startIndex, endIndex);
+
+            reverseListRecursively(copiedList, startIndex + 1, endIndex - 1);
+
         }
 
-        Collections.swap(copiedList, startIndex, endIndex);
-
-        reverseListRecursively(copiedList, startIndex+1, endIndex-1);
-
+    public boolean checkForDuplicateBicycles(ArrayList<Bicycle> arrList, Bicycle createdBike){
+        for (Bicycle bike: arrList){
+            if (bike.equals(createdBike)) return true;
+        }
+        return false;
     }
 
+    public boolean nameCheck(ArrayList<Bicycle> arrList, String nameToCheck) {
+        for (Bicycle bike:arrList) {
+            if (bike.getName().equals(nameToCheck)) return true;
+        }
+        return false;
+    }
 
-
-
-
+    public Bicycle returnDuplicatedBicycle(ArrayList<Bicycle> arrList, Bicycle duplicateBike) {
+        for (Bicycle bike:arrList) {
+            if (bike.equals(duplicateBike)) return bike;
+        }
+        return duplicateBike;
+    }
 }
 
 

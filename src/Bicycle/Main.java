@@ -107,16 +107,33 @@ public class Main {
                 // end of case 1
 // --------------------------------------Create Custom Bicycle--------------------------------------------------------------------------------//
                 case 2: {
+
                     Bicycle newBike = createNewBicycle(); //create new bicycle
-                    //check if the bike exists
-                    //if the bike exists --> That already exists
-                    //if not --> add to list
 
-                    inv.addBicyclesToList(newBike); // add new bicycle to list
+                    if (inv.checkForDuplicateBicycles(inv.getList(), newBike)){
+                        Bicycle duplicatedBicycle = inv.returnDuplicatedBicycle(inv.getList(), newBike);
+                        System.out.println("That Bicycle already exists under the name " + "\"" + duplicatedBicycle.getName().toUpperCase() + "\"");
+                        System.out.println("""
+                            Since we already have a bicycle that matches your custom one, would you like to view the specifications?
+                            1. Yes
+                            2. No""");
+                        int viewSpecs = validateInput(2);
+                        if (viewSpecs == 1){
+                            duplicatedBicycle.showSpecs();
+                        }
 
-                    System.out.println();
-                    newBike.showSpecs(); // show specs of bike
-                    System.out.println("Would you like to purchase this bicycle?\n1. Yes\n2. No");
+                    }
+                    else {
+                        System.out.println("Nice ride, we're creating your custom bicycle now!");
+                        inv.addBicyclesToList(newBike); // add new bicycle to list
+                        System.out.println();
+                        newBike.showSpecs(); // show specs of bike
+                    }
+
+                    System.out.println("""
+                            Would you like to purchase this bicycle?
+                            1. Yes
+                            2. No""");
                     int purchaseChoice = validateInput(2);
                     if (purchaseChoice==1) {
                         System.out.println("Thanks for your purchase.\nWould you like a receipt?");
@@ -228,9 +245,14 @@ public class Main {
         System.out.println("Create your own custom bicycle!");
         //display options to user to create custom bike
 
-        System.out.println("Let's start off by giving your custom bicycle a name");
+        System.out.println("Give your custom bicycle a name");
         input.nextLine();
         String selectedName = input.nextLine();
+
+        while (inv.nameCheck(inv.getList(), selectedName)) {
+            System.out.println("That name has already been taken. Please choose another.");
+            selectedName = input.nextLine();
+        }
 
         System.out.println("Select the type of bike:");
         custom.printTypes(custom.getTypeOptions());

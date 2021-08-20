@@ -82,7 +82,7 @@ public class Main {
                             System.out.println("Enter the name of the bicycle: ");
                             input.nextLine(); // clear scanner
                             String nameSearch = input.nextLine(); // take in user input for search
-                            int indexOfSearch = inv.SearchList(nameSearch); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
+                            int indexOfSearch = inv.searchList(nameSearch); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
                             if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
                                 validIndex = false; // trigger the loop to ask again
                                 input.nextLine(); // clear the scanner from the last input
@@ -131,9 +131,10 @@ public class Main {
                     System.out.println();
                     boolean validIndex;
                     do {
+                        input.nextLine();
                         System.out.println("Enter the name of the bicycle you want to remove");
                         String searchName = input.nextLine();
-                        int indexOfSearch = inv.SearchList(searchName); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
+                        int indexOfSearch = inv.searchList(searchName); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
                         if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
                             validIndex = false; // trigger the loop to ask again
                             input.nextLine(); // clear the scanner from the last input
@@ -141,8 +142,14 @@ public class Main {
                         } else {
                             validIndex = true; // stop the loop
                             String nameOfBikeToBeRemoved = inv.getList().get(indexOfSearch).getName();
-                            System.out.println("You have removed " + "'" + nameOfBikeToBeRemoved.toUpperCase() + "'" + " from the list");
-                            inv.removeBicycleFromList(inv.getList().get(indexOfSearch)); // get the object at the index returned and remove it from the list
+                            System.out.println("Are you sure you want to remove " + "\"" + nameOfBikeToBeRemoved.toUpperCase() + "\"?\n" +
+                                    "Press 1 to continue or 2 to abort:");
+                            int remove = validateInput(2);
+                            if (remove == 1){
+                                System.out.println("You have removed " + "'" + nameOfBikeToBeRemoved.toUpperCase() + "'" + " from the list");
+                                inv.removeBicycleFromList(inv.getList().get(indexOfSearch)); // get the object at the index returned and remove it from the list
+                            }
+                          else System.out.println("Aborted.");
                         }
                     } while (!validIndex); // loop to ensure the object is found
                     break;

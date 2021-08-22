@@ -52,12 +52,14 @@ public class Main {
                     int viewChoice = validateInput(2); //display menu and validate input and set return value of choice to viewChoice variable
                     if (viewChoice == 1) {
 
+                        System.out.println("Inventory: ");
+
                         // print out the names of the bikes
                         for (Bicycle bike : inv.getList()) {
                             System.out.println((inv.getList().indexOf(bike) + 1) + "." + bike.getName());
                         }
-
-                        System.out.println("\n1. View technical specifications\n2. Display list in reverse order:");
+                        System.out.println("\nSelect from the options below:");
+                        System.out.println("1. View technical specifications\n2. Display list in reverse order");
                         int selection = validateInput(2);
                         if (selection == 1) {
                             System.out.println("Select a bicycle to view the technical specifications: ");

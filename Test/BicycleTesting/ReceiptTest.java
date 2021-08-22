@@ -54,6 +54,7 @@ public class ReceiptTest {
     public void writeToFileTest(){
         String fileName = "receipt.csv";
         receipt.writeSpecsToReceipt(receipt.createFile(fileName), testBike1);
+
     }
 
 

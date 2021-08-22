@@ -1,7 +1,19 @@
 package BicycleTesting;
 
+import Bicycle.Bicycle;
+import Bicycle.Receipt;
 import jdk.jfr.Description;
+import jdk.jfr.StackTrace;
 import org.junit.*;
+import org.junit.rules.TemporaryFolder;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 
 public class ReceiptTest {
     /**
@@ -20,29 +32,31 @@ public class ReceiptTest {
      * - Renaming a receipt file's name
      */
 
-    @Description("")
-    @BeforeClass
-    public static void oneTimeSetUp(){
+    public Receipt receipt = new Receipt();
+    public Bicycle testBike1 = new Bicycle("Test Bike 1", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45, 21, 1250);
 
+
+
+    @Description("Initial fail test")
+    @Test
+    public void failTest(){
+        Assert.fail();
     }
 
-    @Description("")
-    @Before
-    public void setUp(){
-
+    @Description("Test for file creation")
+    @Test
+    public void createFileTest(){
+        Assert.assertTrue(receipt.createFile("receipt.csv").exists());
     }
 
-    @Description("")
-    @After
-    public void tearDown(){
-
+    @Description("Test for write to file")
+    @Test
+    public void writeToFileTest(){
+        String fileName = "receipt.csv";
+        receipt.writeSpecsToReceipt(receipt.createFile(fileName), testBike1);
     }
 
-    @Description("")
-    @AfterClass
-    public static void oneTimeTearDown(){
 
-    }
 
 
 

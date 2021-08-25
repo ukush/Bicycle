@@ -28,7 +28,6 @@ public class Receipt {
         }
 
     }
-
      */
 
     public void writeSpecsToReceipt(File file, Bicycle bike) {

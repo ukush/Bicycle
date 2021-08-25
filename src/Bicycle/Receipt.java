@@ -16,11 +16,8 @@ public class Receipt {
         return receipt;
     }
 
-
-
-
     /*
-    public void writeToReceipt(File file) {
+    public void writeToReceipt(File csvFile) {
         String message = "testing";
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(("receipt.csv")));
@@ -36,18 +33,18 @@ public class Receipt {
 
     public void writeSpecsToReceipt(File file, Bicycle bike) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(("receipt.csv")));
-
-            writer.write(bike.getName() + ", " + bike.getType() + ", " + bike.getMaterial() + ", " +
-                    bike.getColour() + ", " + bike.getWeight() + ", " + bike.getTopSpeed() + ", " +
-                    bike.getTyreDiameter() + ", " + bike.getTotalGears() + ", " + bike.getPrice());
-
+            BufferedWriter writer = new BufferedWriter(new FileWriter((file.getName())));
+            writer.write("Model Name: " + bike.getName() + ", " + "Bicycle Type: " + bike.getType() + ", " + "Material: " + bike.getMaterial() + ", " +
+                    "Colour: " + bike.getColour() + ", " + "Weight: " + bike.getWeight() + ", " + "Top Speed: " + bike.getTopSpeed() + ", " +
+                    "Tyre Diameter: " + bike.getTyreDiameter() + ", " + "Number of Gears: " + bike.getTotalGears() + ", " + "Price: £ " + bike.getPrice());
             writer.close();
         } catch (IOException e) {
+            System.err.println("There was an error writing to file");
             e.printStackTrace();
         }
 
     }
+
 
 
 }

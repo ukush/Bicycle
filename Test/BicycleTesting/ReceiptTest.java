@@ -1,16 +1,13 @@
 package BicycleTesting;
-
 import Bicycle.Bicycle;
 import Bicycle.Receipt;
 import jdk.jfr.Description;
 import jdk.jfr.StackTrace;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
+import org.w3c.dom.ls.LSOutput;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -35,27 +32,75 @@ public class ReceiptTest {
     public Receipt receipt = new Receipt();
     public Bicycle testBike1 = new Bicycle("Test Bike 1", "road", "carbon fibre", "gunmetal grey", 9f, 27.5f, 45, 21, 1250);
 
+    File testfile1;
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder(); //set up temporary folder for testing
 
 
-    @Description("Initial fail test")
-    @Test
-    public void failTest(){
-        Assert.fail();
+    @Before
+    public void setUp(){
+        //add test files to temporary folder
+        try {
+            testfile1 = folder.newFile("test.csv");
+        } catch (IOException e) {
+            System.err.println("error creating temporary file");
+            e.printStackTrace();
+        }
     }
 
-    @Description("Test for file creation")
+
+   /* @Description("Test for write to file")
     @Test
-    public void createFileTest(){
-        Assert.assertTrue(receipt.createFile("receipt.csv").exists());
+    public void writeToFileTest(){
+        receipt.writeSpecsToReceipt(testfile1, testBike1);
+        Assert.assertEquals(testfile1.getName(), "testfile.csv"); // fail test
     }
+
+    */
 
     @Description("Test for write to file")
     @Test
     public void writeToFileTest(){
-        String fileName = "receipt.csv";
-        receipt.writeSpecsToReceipt(receipt.createFile(fileName), testBike1);
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(testfile1));
+            writer.write(testBike1.getName() + ", " + testBike1.getType() + ", " + testBike1.getMaterial() + ", " +
+                    testBike1.getColour() + ", " + testBike1.getWeight() + ", " + testBike1.getTopSpeed() + ", " +
+                    testBike1.getTyreDiameter() + ", " + testBike1.getTotalGears() + ", " + testBike1.getPrice());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        Assert.assertEquals(testfile1.getName(), "test.csv");
+        Assert.assertEquals(testBike1.getName(), "Test Bike 1");
+        Assert.assertEquals(testBike1.getType(), "road");
+        Assert.assertEquals(testBike1.getMaterial(), "carbon fibre");
     }
+
+    @Description("Test for write to file")
+    @Test
+    public void readFromFileTest(){
+        //write to file
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(testfile1));
+            writer.write(testBike1.getName() + ", " + testBike1.getType() + ", " + testBike1.getMaterial() + ", " +
+                    testBike1.getColour() + ", " + testBike1.getWeight() + ", " + testBike1.getTopSpeed() + ", " +
+                    testBike1.getTyreDiameter() + ", " + testBike1.getTotalGears() + ", " + testBike1.getPrice());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // read from file
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(testfile1));
+
+            System.out.println(reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

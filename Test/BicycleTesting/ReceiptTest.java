@@ -94,7 +94,6 @@ public class ReceiptTest {
         // read from file
         try {
             BufferedReader reader = new BufferedReader(new FileReader(testfile1));
-
             System.out.println(reader.readLine());
         } catch (IOException e) {
             e.printStackTrace();

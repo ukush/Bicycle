@@ -94,7 +94,9 @@ public class ReceiptTest {
         // read from file
         try {
             BufferedReader reader = new BufferedReader(new FileReader(testfile1));
-            System.out.println(reader.readLine());
+            char[] chars = new char[10];
+            int charsRead = reader.read(chars, 0, 10);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

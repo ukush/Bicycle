@@ -1,4 +1,6 @@
 package Bicycle;
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main {
@@ -9,6 +11,8 @@ public class Main {
 
     // create instance of Inventory class to be able to use the methods
     public static BicycleInventory inv = new BicycleInventory();
+
+    public static Receipt r = new Receipt();
 
 
     //---------------------------------------------------start of main method-----------------------------------------------------------------------------//
@@ -66,10 +70,37 @@ public class Main {
                             int bikeChoice = validateInput(inv.getList().size());
                             // find the object where index = bikeChoice and run the showSpecs() method for that object
                             inv.getList().get(bikeChoice - 1).showSpecs(); // -1 to get the correct index since they start from 0
+
+                            System.out.println("""
+                            Would you like to purchase this bicycle?
+                            1. Yes
+                            2. No""");
+                            int purchaseChoice = validateInput(2);
+                            if (purchaseChoice==1) {
+                                System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
+                                int print = validateInput(2);
+                                if (print ==1){
+                                    System.out.println("Please enter your name: ");
+                                    input.nextLine(); //clear scanner
+                                    String name = input.nextLine();
+
+                                    System.out.println("Please enter your postcode: ");
+                                    String postcode = input.nextLine();
+
+                                    String timeStamp = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
+                                    String receiptName = timeStamp + ".csv";
+                                    r.setName(receiptName); // set the name of the receipt
+                                    File receipt = r.createFile(receiptName); // create file and pass name as param
+                                    r.writeSpecsToReceipt(receipt, inv.getList().get(bikeChoice - 1), name, timeStamp, postcode); // write to file
+                                    r.receipts.add(receipt); //add file to receipt lists
+                                    System.out.println("Your receipt has been saved");
+
+                                }
+                            }
                         }
-                    else {
+                        else {
 //------------------------------------------Reverse List Order-----------------------------------------------------------------//
-                        ArrayList<Bicycle> reversedList = new ArrayList<Bicycle>(inv.getList()); // make a copy of the list
+                        ArrayList<Bicycle> reversedList = new ArrayList<>(inv.getList()); // make a copy of the list
                         inv.reverseListRecursively(reversedList, 0, reversedList.size() - 1); // reverse the list
                         for (Bicycle bike : reversedList) { //display reversed list
                             System.out.println((reversedList.indexOf(bike) + 1) + "." + bike.getName());
@@ -80,29 +111,44 @@ public class Main {
 
 //------------------------------------------- Search Bicycle By Name------------------------------------------------------------//
                         boolean validIndex;
+                        Bicycle found;
                         do {
                             System.out.println("Enter the name of the bicycle: ");
-                            input.nextLine(); // clear scanner
                             String nameSearch = input.nextLine(); // take in user input for search
                             int indexOfSearch = inv.searchList(nameSearch); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
                             if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
+                                input.nextLine(); // clear the scanner
                                 validIndex = false; // trigger the loop to ask again
-                                input.nextLine(); // clear the scanner from the last input
                                 System.out.println("That bicycle could not be found. Please Try again.");
                             } else {
-                                validIndex = true; // stop the loop
-                                inv.getList().get(indexOfSearch).showSpecs(); // run the showSpecs method for the bicycle object in the arraylist found at the index returned
+                                validIndex = true;
+                                found = inv.getList().get(indexOfSearch); // run the showSpecs method for the bicycle object in the arraylist found at the index returned
+                                found.showSpecs();
+                                System.out.println("""
+                                Would you like to purchase this bicycle?
+                                1. Yes
+                                2. No""");
+                                int purchaseChoice = validateInput(2);
+                                if (purchaseChoice==1) {
+                                    System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
+                                    int print = validateInput(2);
+                                    if (print ==1){
+                                        System.out.println("Please enter your name: ");
+                                        String name = input.nextLine();
+
+                                        System.out.println("Please enter your postcode: ");
+                                        String postcode = input.nextLine();
+
+                                        String timeStamp = new SimpleDateFormat("dd/MM/yyyy-HH:mm").format(Calendar.getInstance().getTime());
+
+                                        File receipt = r.createFile(timeStamp);
+                                        r.writeSpecsToReceipt(receipt, found, name, timeStamp, postcode);
+                                        r.receipts.add(receipt);
+                                        System.out.println("Your receipt has been saved");
+                                    }
+                                }
                             }
                         } while (!validIndex); // loop to ensure the object is found
-                    }
-                    System.out.println();
-                    System.out.println("Would you like to purchase this bicycle?\n1. Yes\n2. No");
-                    int purchaseChoice = validateInput(2);
-                    if (purchaseChoice==1) {
-                        System.out.println("Thanks for your purchase.\nWould you like a receipt?");
-                    }
-                    else{
-                        break;
                     }
                     break;
                 }
@@ -134,7 +180,24 @@ public class Main {
                             2. No""");
                     int purchaseChoice = validateInput(2);
                     if (purchaseChoice==1) {
-                        System.out.println("Thanks for your purchase.\nWould you like a receipt?");
+                        System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
+                        int print = validateInput(2);
+                        if (print ==1){
+                            System.out.println("Please enter your name: ");
+                            input.nextLine(); //clear scanner
+                            String name = input.nextLine();
+
+                            System.out.println("Please enter your postcode: ");
+                            String postcode = input.nextLine();
+
+                            String timeStamp = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
+                            String receiptName = timeStamp + ".csv";
+                            r.setName(receiptName); // set the name of the receipt
+                            File receipt = r.createFile(receiptName); // create file and pass name as param
+                            r.writeSpecsToReceipt(receipt, newBike, name, timeStamp, postcode); // write to file
+                            r.receipts.add(receipt); //add file to receipt lists
+                            System.out.println("Your receipt has been saved");
+                        }
                     }
                     else{
                         break;
@@ -169,6 +232,16 @@ public class Main {
                     } while (!validIndex); // loop to ensure the object is found
                     break;
                 } // end of case 3
+                case 4: {
+//----------------------------------------Purchases--------------------------------------------------------//
+                    //show list of files(they will be named after the datetime)
+                    //allow user to read any file
+                    //allow user to rename any file
+
+                    r.printReceiptList(r.receipts); //print out list
+
+
+                } //end of case 4
             }// end of switch statement
         } while (choice!=0); // go back to main menu until the user selects the exit option
     } //---------------------------------------------  END OF MAIN METHOD-------------------------------------------------------------------------------//
@@ -179,7 +252,7 @@ public class Main {
     }
 
     private static void displayMenu() {
-        System.out.println("1. View Bicycles\n2. Create Custom Bicycle\n3. Remove Bicycle from Store\n0. Exit");
+        System.out.println("1. View Bicycles\n2. Create Custom Bicycle\n3. Remove Bicycle from Store\n4. View Purchases\n0. Exit");
     }
 
     private static void viewBicycleMenu() {
@@ -194,14 +267,14 @@ public class Main {
             try {
                 choice = input.nextInt(); // take in user input
                 // create loop to validate the input is within range
-                if (choice < 0 || choice > 3) { // if the input is not in range
+                if (choice < 0 || choice > 4) { // if the input is not in range
                     System.out.println("Error: That is not a valid option. Please try again."); // display error message
                     isInputValid = false; // trigger while loop
                     input.nextLine(); // clear scanner
                 } else {
                     isInputValid = true; // stop while loop
                 }
-            } catch (InputMismatchException e) { //catch exception of input is not a number (InputMismatch exception)
+            } catch (InputMismatchException e) { //catch exception input is not a number (InputMismatch exception)
                 input.nextLine(); // clear scanner token
                 System.out.println("That is not a valid input. Please enter a number using your keypad."); // display error message
                 isInputValid = false; // trigger the while loop
@@ -226,7 +299,7 @@ public class Main {
                 } else {
                     isInputValid = true; // stop while loop
                 }
-            } catch (InputMismatchException e) { //catch exception of input is not a number (InputMismatch exception)
+            } catch (InputMismatchException e) { //catch exception input is not a number (InputMismatch exception)
                 input.nextLine(); // clear scanner token
                 System.out.println("That is not a valid input. Please enter a number using your keypad."); // display error message
                 isInputValid = false; // trigger the while loop
@@ -321,14 +394,5 @@ public class Main {
         // add this new Bicycle object to the arrayList of stored Bicycles
 
         return new Bicycle(selectedName, selectedType, selectedMaterial, selectedColour, bikeWeight, selectedDiameter, topSpeed, selectedGear, totalPrice);
-    }
-
-    private static int searchList(ArrayList<Bicycle> list, String name) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getName().equals(name)) {
-                return i;
-            }
-        }
-        return -1;
     }
 }

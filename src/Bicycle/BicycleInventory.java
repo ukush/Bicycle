@@ -1,11 +1,6 @@
 package Bicycle;
-
-import javax.print.attribute.standard.OrientationRequested;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
 public class BicycleInventory {
     /**
      * This class will define methods for the following:
@@ -36,7 +31,6 @@ public class BicycleInventory {
         }
         return -1;
     }
-
 
         //--------------------------------------Test Methods-----------------------------------------------------------------------//
 
@@ -112,6 +106,10 @@ public class BicycleInventory {
         }
         return duplicateBike;
     }
+
+
+
+
 }
 
 

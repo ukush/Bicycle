@@ -2,15 +2,9 @@ package BicycleTesting;
 import Bicycle.Bicycle;
 import Bicycle.Receipt;
 import jdk.jfr.Description;
-import jdk.jfr.StackTrace;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 
 public class ReceiptTest {
     /**
@@ -64,8 +58,8 @@ public class ReceiptTest {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(testfile1));
             writer.write(testBike1.getName() + ", " + testBike1.getType() + ", " + testBike1.getMaterial() + ", " +
-                    testBike1.getColour() + ", " + testBike1.getWeight() + ", " + testBike1.getTopSpeed() + ", " +
-                    testBike1.getTyreDiameter() + ", " + testBike1.getTotalGears() + ", " + testBike1.getPrice());
+                    testBike1.getColour() + ", " + testBike1.getWeight() + ", " + testBike1.getTyreDiameter() + ", " + testBike1.getTopSpeed() + ", " +
+                     testBike1.getTotalGears() + ", " + testBike1.getPrice());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,8 +78,7 @@ public class ReceiptTest {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(testfile1));
             writer.write(testBike1.getName() + ", " + testBike1.getType() + ", " + testBike1.getMaterial() + ", " +
-                    testBike1.getColour() + ", " + testBike1.getWeight() + ", " + testBike1.getTopSpeed() + ", " +
-                    testBike1.getTyreDiameter() + ", " + testBike1.getTotalGears() + ", " + testBike1.getPrice());
+                    testBike1.getColour() + ", " + testBike1.getWeight() + ", " + testBike1.getTyreDiameter() + ", " + testBike1.getTopSpeed() + ", " + testBike1.getTotalGears() + ", " + testBike1.getPrice());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,12 +87,57 @@ public class ReceiptTest {
         // read from file
         try {
             BufferedReader reader = new BufferedReader(new FileReader(testfile1));
-            char[] chars = new char[10];
-            int charsRead = reader.read(chars, 0, 10);
+            Assert.assertEquals(reader.readLine(), "Test Bike 1, road, carbon fibre, gunmetal grey, 9.0, 27.5, 45, 21, 1250.0");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void formatFileAsReceipt(){
+
+        //write to temporary test file
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(testfile1));
+            writer.write(testBike1.getName() + ", " + testBike1.getType() + ", " + testBike1.getMaterial() + ", " +
+                    testBike1.getColour() + ", " + testBike1.getWeight() + ", " + testBike1.getTyreDiameter() + ", " + testBike1.getTopSpeed() + ", " + testBike1.getTotalGears() + ", " + testBike1.getPrice());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //read file from temp test file
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(testfile1)); // initialise reader
+            try {
+                String s = reader.readLine(); //Each file will only contain a single line
+                String [] values; // initialise array
+
+                values = s.split(","); //split string (1st line) by comma
+
+                //print out values in a receipt styling
+                System.out.println("Model Name: " + values[0]);
+                System.out.println("Type: " + values[1]);
+                System.out.println("Material: " + values[2]);
+                System.out.println("Colour: " + values[3]);
+                System.out.println("Weight: " + values[4] + "kg");
+                System.out.println("Tyre Diameter: " + values[5] + "\"");
+                System.out.println("Top Speed: " + values[6] + "mph");
+                System.out.println("Number of Gears: " + values[7]);
+                System.out.println("Price: £" + values[8]);
+
+                Assert.assertEquals(values[3], " gunmetal grey"); // assertion test
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 

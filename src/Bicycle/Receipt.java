@@ -7,9 +7,7 @@ public class Receipt {
     public ArrayList<File> receipts = new ArrayList<>();
 
     private String name;
-    public String getName(){
-        return this.name;
-    }
+    public String getName() {return this.name;}
     public void setName(String newName){
         this.name = newName;
     }
@@ -21,16 +19,10 @@ public class Receipt {
         }
     }
 
-    //----------------------------Test methods------------------------------------------//
+    //----------------------------Methods developed from testing------------------------------------------//
 
     public File createFile(String filename){
-        File receipt = new File(filename);
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(receipt.getName()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return receipt;
+        return new File(filename);
     }
 
     /*
@@ -61,7 +53,6 @@ public class Receipt {
         }
 
     }
-
 
     public void readValuesFromFile(File fileToRead){
         try {

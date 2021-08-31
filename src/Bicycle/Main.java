@@ -356,7 +356,7 @@ public class Main {
         System.out.println("Please enter your postcode: ");
         String postcode = input.nextLine();
 
-        String timeStamp = new SimpleDateFormat("dd/MM/yy-HH:mm").format(Calendar.getInstance().getTime());
+        String timeStamp = new SimpleDateFormat("MM/dd/yy-HH:mm").format(Calendar.getInstance().getTime());
         String receiptName = timeStamp + ".csv";
         r.setName(receiptName); // set the name of the receipt
         File receipt = r.createFile(receiptName); // create file and pass name as param

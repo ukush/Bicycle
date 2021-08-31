@@ -57,20 +57,19 @@ public class Main {
                     if (viewChoice == 1) {
 
                         System.out.println("Inventory: ");
-
                         // print out the names of the bikes
+                        System.out.println();
                         for (Bicycle bike : inv.getList()) {
-                            System.out.println((inv.getList().indexOf(bike) + 1) + "." + bike.getName());
+                            System.out.println((inv.getList().indexOf(bike) + 1) + ". " + bike.getName());
                         }
                         System.out.println("\nSelect from the options below:");
-                        System.out.println("1. View technical specifications\n2. Display list in reverse order");
-                        int selection = validateInput(2);
+                        System.out.println("1. View technical specifications\n2. Display list in reverse order\n3. Remove bicycle from inventory");
+                        int selection = validateInput(3);
                         if (selection == 1) {
                             System.out.println("Select a bicycle to view the technical specifications: ");
                             int bikeChoice = validateInput(inv.getList().size());
                             // find the object where index = bikeChoice and run the showSpecs() method for that object
                             inv.getList().get(bikeChoice - 1).showSpecs(); // -1 to get the correct index since they start from 0
-
                             System.out.println("""
                             Would you like to purchase this bicycle?
                             1. Yes
@@ -80,34 +79,39 @@ public class Main {
                                 System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
                                 int print = validateInput(2);
                                 if (print ==1){
-                                    System.out.println("Please enter your name: ");
-                                    input.nextLine(); //clear scanner
-                                    String name = input.nextLine();
-
-                                    System.out.println("Please enter your postcode: ");
-                                    String postcode = input.nextLine();
-
-                                    String timeStamp = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
-                                    String receiptName = timeStamp + ".csv";
-                                    r.setName(receiptName); // set the name of the receipt
-                                    File receipt = r.createFile(receiptName); // create file and pass name as param
-                                    r.writeSpecsToReceipt(receipt, inv.getList().get(bikeChoice - 1), name, timeStamp, postcode); // write to file
-                                    r.receipts.add(receipt); //add file to receipt lists
-                                    System.out.println("Your receipt has been saved");
-
+                                 saveReceipt(inv.getList().get(bikeChoice-1));
                                 }
                             }
                         }
-                        else {
+                        else if (selection ==2){
 //------------------------------------------Reverse List Order-----------------------------------------------------------------//
                         ArrayList<Bicycle> reversedList = new ArrayList<>(inv.getList()); // make a copy of the list
                         inv.reverseListRecursively(reversedList, 0, reversedList.size() - 1); // reverse the list
+                            System.out.println();
+                            System.out.println("Inventory: ");
                         for (Bicycle bike : reversedList) { //display reversed list
-                            System.out.println((reversedList.indexOf(bike) + 1) + "." + bike.getName());
+                            System.out.println((reversedList.indexOf(bike) + 1) + ". " + bike.getName());
                         }
                         break;
                     }
-                    } else { // because the input has already been validated, if it is not 1 it can only be 2 therefore no need for else-if etc.
+                        else { // if user selects remove bicycle
+
+// --------------------------------------Remove Bicycle from List--------------------------------------------------------------------------------//
+                            System.out.println("Select which bicycle you would like to remove:");
+                            int removeIndex = validateInput(inv.getList().size()); //get index of
+                            Bicycle bicycleToRemove = inv.getList().get(removeIndex -1);
+                            System.out.println("Are you sure you want to remove " + "\"" + bicycleToRemove.getName().toUpperCase() + "\"" + " from the inventory list?");
+                            System.out.println("1. Remove this bike from the list\n2. Return to main menu");
+                            int remove = validateInput(2);
+                            if (remove ==1) {
+                                inv.removeBicycleFromList(bicycleToRemove);
+                            }
+                            else {
+                                break;
+                            }
+
+                        }
+                    } else { // if user selects search by name
 
 //------------------------------------------- Search Bicycle By Name------------------------------------------------------------//
                         boolean validIndex;
@@ -133,18 +137,7 @@ public class Main {
                                     System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
                                     int print = validateInput(2);
                                     if (print ==1){
-                                        System.out.println("Please enter your name: ");
-                                        String name = input.nextLine();
-
-                                        System.out.println("Please enter your postcode: ");
-                                        String postcode = input.nextLine();
-
-                                        String timeStamp = new SimpleDateFormat("dd/MM/yyyy-HH:mm").format(Calendar.getInstance().getTime());
-
-                                        File receipt = r.createFile(timeStamp);
-                                        r.writeSpecsToReceipt(receipt, found, name, timeStamp, postcode);
-                                        r.receipts.add(receipt);
-                                        System.out.println("Your receipt has been saved");
+                                        saveReceipt(found);
                                     }
                                 }
                             }
@@ -183,20 +176,7 @@ public class Main {
                         System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
                         int print = validateInput(2);
                         if (print ==1){
-                            System.out.println("Please enter your name: ");
-                            input.nextLine(); //clear scanner
-                            String name = input.nextLine();
-
-                            System.out.println("Please enter your postcode: ");
-                            String postcode = input.nextLine();
-
-                            String timeStamp = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
-                            String receiptName = timeStamp + ".csv";
-                            r.setName(receiptName); // set the name of the receipt
-                            File receipt = r.createFile(receiptName); // create file and pass name as param
-                            r.writeSpecsToReceipt(receipt, newBike, name, timeStamp, postcode); // write to file
-                            r.receipts.add(receipt); //add file to receipt lists
-                            System.out.println("Your receipt has been saved");
+                            saveReceipt(newBike);
                         }
                     }
                     else{
@@ -204,44 +184,18 @@ public class Main {
                     }
                     break;
                 } // end of case 2
-// --------------------------------------Remove Bicycle from List--------------------------------------------------------------------------------//
-                case 3: {
-                    System.out.println();
-                    boolean validIndex;
-                    do {
-                        input.nextLine();
-                        System.out.println("Enter the name of the bicycle you want to remove");
-                        String searchName = input.nextLine();
-                        int indexOfSearch = inv.searchList(searchName); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
-                        if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
-                            validIndex = false; // trigger the loop to ask again
-                            input.nextLine(); // clear the scanner from the last input
-                            System.out.println("That bicycle could not be found. Please Try again.");
-                        } else {
-                            validIndex = true; // stop the loop
-                            String nameOfBikeToBeRemoved = inv.getList().get(indexOfSearch).getName();
-                            System.out.println("Are you sure you want to remove " + "\"" + nameOfBikeToBeRemoved.toUpperCase() + "\"?\n" +
-                                    "Press 1 to continue or 2 to abort:");
-                            int remove = validateInput(2);
-                            if (remove == 1){
-                                System.out.println("You have removed " + "'" + nameOfBikeToBeRemoved.toUpperCase() + "'" + " from the list");
-                                inv.removeBicycleFromList(inv.getList().get(indexOfSearch)); // get the object at the index returned and remove it from the list
-                            }
-                          else System.out.println("Aborted.");
-                        }
-                    } while (!validIndex); // loop to ensure the object is found
-                    break;
-                } // end of case 3
-                case 4: {
 //----------------------------------------Purchases--------------------------------------------------------//
+
+                case 3: {
                     //show list of files(they will be named after the datetime)
                     //allow user to read any file
                     //allow user to rename any file
 
+                    if (r.receipts.size() == 0) {
+                        System.out.println("There are no receipts to view");
+                    }
                     r.printReceiptList(r.receipts); //print out list
-
-
-                } //end of case 4
+                } // end of case 3
             }// end of switch statement
         } while (choice!=0); // go back to main menu until the user selects the exit option
     } //---------------------------------------------  END OF MAIN METHOD-------------------------------------------------------------------------------//
@@ -252,7 +206,7 @@ public class Main {
     }
 
     private static void displayMenu() {
-        System.out.println("1. View Bicycles\n2. Create Custom Bicycle\n3. Remove Bicycle from Store\n4. View Purchases\n0. Exit");
+        System.out.println("1. View Bicycles\n2. Create Custom Bicycle\n3. View Purchases\n0. Exit");
     }
 
     private static void viewBicycleMenu() {
@@ -267,22 +221,21 @@ public class Main {
             try {
                 choice = input.nextInt(); // take in user input
                 // create loop to validate the input is within range
-                if (choice < 0 || choice > 4) { // if the input is not in range
+                if (choice <0 || choice > 3) { // if the input is not in range
                     System.out.println("Error: That is not a valid option. Please try again."); // display error message
                     isInputValid = false; // trigger while loop
-                    input.nextLine(); // clear scanner
                 } else {
                     isInputValid = true; // stop while loop
                 }
             } catch (InputMismatchException e) { //catch exception input is not a number (InputMismatch exception)
-                input.nextLine(); // clear scanner token
                 System.out.println("That is not a valid input. Please enter a number using your keypad."); // display error message
+                input.nextLine(); // clear scanner
                 isInputValid = false; // trigger the while loop
             }
         } while (!isInputValid);
+        input.nextLine(); // clear scanner
         return choice;
     }
-
 
     private static int validateInput(int numberOfOptions) {
 
@@ -292,19 +245,19 @@ public class Main {
             try {
                 choice = input.nextInt(); // take in user input
                 // create loop to validate the input is within range
-                if (choice <= 0 || choice > numberOfOptions) { // if the input is not in range
+                if (choice <=0 || choice > numberOfOptions) { // if the input is not in range
                     System.out.println("Error: That is not a valid option. Please try again."); // display error message
                     isInputValid = false; // trigger while loop
-                    input.nextLine(); // clear scanner
                 } else {
                     isInputValid = true; // stop while loop
                 }
             } catch (InputMismatchException e) { //catch exception input is not a number (InputMismatch exception)
-                input.nextLine(); // clear scanner token
                 System.out.println("That is not a valid input. Please enter a number using your keypad."); // display error message
+                input.nextLine(); // clear scanner
                 isInputValid = false; // trigger the while loop
             }
         } while (!isInputValid);
+        input.nextLine(); // clear scanner
         return choice;
     }
 
@@ -395,4 +348,22 @@ public class Main {
 
         return new Bicycle(selectedName, selectedType, selectedMaterial, selectedColour, bikeWeight, selectedDiameter, topSpeed, selectedGear, totalPrice);
     }
+
+    private static void saveReceipt(Bicycle bike){
+        System.out.println("Please enter your name: ");
+        String name = input.nextLine();
+
+        System.out.println("Please enter your postcode: ");
+        String postcode = input.nextLine();
+
+        String timeStamp = new SimpleDateFormat("dd/MM/yy-HH:mm").format(Calendar.getInstance().getTime());
+        String receiptName = timeStamp + ".csv";
+        r.setName(receiptName); // set the name of the receipt
+        File receipt = r.createFile(receiptName); // create file and pass name as param
+        r.writeSpecsToReceipt(receipt, bike, name, timeStamp, postcode); // write to file
+        r.receipts.add(receipt); //add file to receipt lists
+        System.out.println("Your receipt has been saved");
+    }
+
+
 }

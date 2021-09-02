@@ -1,6 +1,11 @@
 package Bicycle;
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Main {
@@ -187,14 +192,46 @@ public class Main {
 //----------------------------------------Purchases--------------------------------------------------------//
 
                 case 3: {
-                    //show list of files(they will be named after the datetime)
-                    //allow user to read any file
-                    //allow user to rename any file
 
+
+                    //check if file exists
                     if (r.receipts.size() == 0) {
                         System.out.println("There are no receipts to view");
                     }
+
+
+                    //print out list of receipts in directory
                     r.printReceiptList(r.receipts); //print out list
+
+                    System.out.println("\nPlease select a receipt: ");
+                    int viewReceipt = input.nextInt();
+                    System.out.println("What would you like to do with this receipt?");
+                    System.out.println("1. View receipt details");
+                    System.out.println("2. Rename receipt");
+                    int receiptChoice = validateInput(2);
+                    if (receiptChoice == 1){
+                        //view receipt details
+                        r.readValuesFromFile(r.receipts.get(viewReceipt-1));
+                    }
+                    else {
+                        System.out.println("Rename the receipt by entering the new name below: ");
+                        String newReceiptName = input.nextLine();
+
+
+                        Path source = Paths.get("/Users/admin/Desktop/Projects/Side Projects/Java/Bicycle/" + r.receipts.get(viewReceipt-1).getName());
+                        try {
+                            Files.move(source, source.resolveSibling(newReceiptName + ".csv"));
+                            System.out.println("File renamed successfully");
+                        } catch (IOException e) {
+                            System.err.println("Error: cannot rename file");
+                            e.printStackTrace();
+                        }
+                    }
+
+
+
+
+
                 } // end of case 3
             }// end of switch statement
         } while (choice!=0); // go back to main menu until the user selects the exit option
@@ -356,11 +393,12 @@ public class Main {
         System.out.println("Please enter your postcode: ");
         String postcode = input.nextLine();
 
-        String timeStamp = new SimpleDateFormat("MM/dd/yy-HH:mm").format(Calendar.getInstance().getTime());
-        String receiptName = timeStamp + ".csv";
+        LocalDateTime dateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);  //get the current date time
+        String receiptName = dateTime + ".csv"; //make the name of the file to be the current date/time it was created.
+
         r.setName(receiptName); // set the name of the receipt
         File receipt = r.createFile(receiptName); // create file and pass name as param
-        r.writeSpecsToReceipt(receipt, bike, name, timeStamp, postcode); // write to file
+        r.writeSpecsToReceipt(receipt, bike, name, dateTime.toString(), postcode); // write to file
         r.receipts.add(receipt); //add file to receipt lists
         System.out.println("Your receipt has been saved");
     }

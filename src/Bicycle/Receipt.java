@@ -12,12 +12,6 @@ public class Receipt {
         this.name = newName;
     }
 
-    public void printReceiptList(ArrayList<File> list){
-        for (File file : list){
-            System.out.println(file.getName());
-            System.out.println();
-        }
-    }
 
     //----------------------------Methods developed from testing------------------------------------------//
 
@@ -63,18 +57,23 @@ public class Receipt {
 
             values = s.split(",");
 
-            System.out.println("Model Name: " + values[0]);
-            System.out.println("Type: " + values[1]);
-            System.out.println("Material: " + values[2]);
-            System.out.println("Colour: " + values[3]);
-            System.out.println("Weight: " + values[4] + "kg");
-            System.out.println("Tyre Diameter: " + values[5] + "\"");
-            System.out.println("Top Speed: " + values[6] + "mph");
-            System.out.println("Number of Gears: " + values[7]);
-            System.out.println("Price: £" + values[8]);
-            System.out.println("Name: " + values[9]);
-            System.out.println("Postcode: " + values[10]);
-            System.out.println("Date of Purchase: " + values[11]);
+            System.out.println("ATOM BICYCLE CENTER");
+            System.out.println();
+            System.out.println("CUSTOMER NAME: " + values[9].toUpperCase());
+            System.out.println("POSTCODE: " + values[10].toUpperCase());
+            System.out.println("DATE/TIME OF PURCHASE: " + values[11]);
+            System.out.println();
+            System.out.println("TOTAL PRICE: £" + values[8]);
+            System.out.println("MODEL NAME: " + values[0].toUpperCase());
+            System.out.println("BICYCLE TYPE: " + values[1].toUpperCase() + " BIKE");
+            System.out.println("FRAME MATERIAL: " + values[2].toUpperCase());
+            System.out.println("FRAME COLOUR: " + values[3].toUpperCase());
+            System.out.println("TOTAL WEIGHT: " + values[4] + "KG");
+            System.out.println("TYRE DIAMETER: " + values[5] + "\"");
+            System.out.println("TOP SPEED: " + values[6] + "MPH");
+            System.out.println("NUMBER OF GEARS: " + values[7]);
+            System.out.println();
+            System.out.println("THANKS FOR SHOPPING AT ATOM BICYCLE CENTER!");
 
             } catch (IOException fileNotFoundException) {
             fileNotFoundException.printStackTrace();

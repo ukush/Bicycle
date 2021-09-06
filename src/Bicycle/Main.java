@@ -1,6 +1,5 @@
 package Bicycle;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,6 +39,16 @@ public class Main {
         inv.addBicyclesToList(bike4);
         inv.addBicyclesToList(bike5);
         inv.addBicyclesToList(bike6);
+
+        // load in pre-written receipts and add to the list of receipts
+        File receipt1 = new File("2021-09-06T15:44JS.csv");
+        File receipt2 = new File("2021-09-06T15:45JD.csv");
+        File receipt3 = new File("2021-09-06T15:46HM.csv");
+
+        r.receipts.add(receipt1);
+        r.receipts.add(receipt2);
+        r.receipts.add(receipt3);
+
 
 
         int choice;
@@ -192,19 +201,13 @@ public class Main {
 //----------------------------------------Purchases--------------------------------------------------------//
 
                 case 3: {
-
-
-                    //check if file exists
-                    if (r.receipts.size() == 0) {
-                        System.out.println("There are no receipts to view");
+                    //print out list of receipts in directory
+                    for (int i = 0; i < r.receipts.size(); i++){
+                        System.out.println((i+1) + ". " + r.receipts.get(i).getName());
                     }
 
-
-                    //print out list of receipts in directory
-                    r.printReceiptList(r.receipts); //print out list
-
                     System.out.println("\nPlease select a receipt: ");
-                    int viewReceipt = input.nextInt();
+                    int viewReceipt = validateInput(r.receipts.size());
                     System.out.println("What would you like to do with this receipt?");
                     System.out.println("1. View receipt details");
                     System.out.println("2. Rename receipt");
@@ -216,22 +219,10 @@ public class Main {
                     else {
                         System.out.println("Rename the receipt by entering the new name below: ");
                         String newReceiptName = input.nextLine();
+                        //rename file
 
 
-                        Path source = Paths.get("/Users/admin/Desktop/Projects/Side Projects/Java/Bicycle/" + r.receipts.get(viewReceipt-1).getName());
-                        try {
-                            Files.move(source, source.resolveSibling(newReceiptName + ".csv"));
-                            System.out.println("File renamed successfully");
-                        } catch (IOException e) {
-                            System.err.println("Error: cannot rename file");
-                            e.printStackTrace();
-                        }
                     }
-
-
-
-
-
                 } // end of case 3
             }// end of switch statement
         } while (choice!=0); // go back to main menu until the user selects the exit option
@@ -390,11 +381,13 @@ public class Main {
         System.out.println("Please enter your name: ");
         String name = input.nextLine();
 
+        String initials = getInitials(name);
+
         System.out.println("Please enter your postcode: ");
         String postcode = input.nextLine();
 
         LocalDateTime dateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);  //get the current date time
-        String receiptName = dateTime + ".csv"; //make the name of the file to be the current date/time it was created.
+        String receiptName = dateTime + initials.toUpperCase() + ".csv"; //make the name of the file to be the current date/time it was created.
 
         r.setName(receiptName); // set the name of the receipt
         File receipt = r.createFile(receiptName); // create file and pass name as param
@@ -402,6 +395,22 @@ public class Main {
         r.receipts.add(receipt); //add file to receipt lists
         System.out.println("Your receipt has been saved");
     }
+
+    private static String getInitials(String fullName){
+        //split full name at first white space and add names into array
+        String [] names = fullName.split("\\s+");
+
+        StringBuilder initials = new StringBuilder();
+
+        for (String name : names){
+            char i = name.charAt(0);
+            initials.append(i);
+        }
+
+        return initials.toString();
+
+    }
+
 
 
 }

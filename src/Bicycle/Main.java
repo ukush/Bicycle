@@ -40,7 +40,7 @@ public class Main {
         inv.addBicyclesToList(bike5);
         inv.addBicyclesToList(bike6);
 
-        // load in pre-written receipts and add to the list of receipts
+        // load in pre-written receipts and add to the list
         File receipt1 = new File("2021-09-06T15:44JS.csv");
         File receipt2 = new File("2021-09-06T15:45JD.csv");
         File receipt3 = new File("2021-09-06T15:46HM.csv");
@@ -48,7 +48,6 @@ public class Main {
         r.receipts.add(receipt1);
         r.receipts.add(receipt2);
         r.receipts.add(receipt3);
-
 
 
         int choice;

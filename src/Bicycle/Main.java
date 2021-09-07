@@ -1,8 +1,5 @@
 package Bicycle;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -50,6 +47,7 @@ public class Main {
         r.receipts.add(receipt3);
 
 
+
         int choice;
         do {
             // introduce the program to the user and display the main menu
@@ -59,12 +57,9 @@ public class Main {
 
             // switch based on menu selection
             switch (choice) {
-                case 0:{
-                    System.out.println("Thanks for visiting");
-                    break; // 0 exits the switch statement
-                } // end of case 1
+                case 0 -> System.out.println("Thanks for visiting"); // end of case 1
 //--------------------------------------View Bikes--------------------------------------------------------------------------------//
-                case 1: {
+                case 1 -> {
                     viewBicycleMenu();
                     int viewChoice = validateInput(2); //display menu and validate input and set return value of choice to viewChoice variable
                     if (viewChoice == 1) {
@@ -84,43 +79,37 @@ public class Main {
                             // find the object where index = bikeChoice and run the showSpecs() method for that object
                             inv.getList().get(bikeChoice - 1).showSpecs(); // -1 to get the correct index since they start from 0
                             System.out.println("""
-                            Would you like to purchase this bicycle?
-                            1. Yes
-                            2. No""");
+                                    Would you like to purchase this bicycle?
+                                    1. Yes
+                                    2. No""");
                             int purchaseChoice = validateInput(2);
-                            if (purchaseChoice==1) {
+                            if (purchaseChoice == 1) {
                                 System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
                                 int print = validateInput(2);
-                                if (print ==1){
-                                 saveReceipt(inv.getList().get(bikeChoice-1));
+                                if (print == 1) {
+                                    saveReceipt(inv.getList().get(bikeChoice - 1));
                                 }
                             }
-                        }
-                        else if (selection ==2){
+                        } else if (selection == 2) {
 //------------------------------------------Reverse List Order-----------------------------------------------------------------//
-                        ArrayList<Bicycle> reversedList = new ArrayList<>(inv.getList()); // make a copy of the list
-                        inv.reverseListRecursively(reversedList, 0, reversedList.size() - 1); // reverse the list
+                            ArrayList<Bicycle> reversedList = new ArrayList<>(inv.getList()); // make a copy of the list
+                            inv.reverseListRecursively(reversedList, 0, reversedList.size() - 1); // reverse the list
                             System.out.println();
                             System.out.println("Inventory: ");
-                        for (Bicycle bike : reversedList) { //display reversed list
-                            System.out.println((reversedList.indexOf(bike) + 1) + ". " + bike.getName());
-                        }
-                        break;
-                    }
-                        else { // if user selects remove bicycle
+                            for (Bicycle bike : reversedList) { //display reversed list
+                                System.out.println((reversedList.indexOf(bike) + 1) + ". " + bike.getName());
+                            }
+                        } else { // if user selects remove bicycle
 
 // --------------------------------------Remove Bicycle from List--------------------------------------------------------------------------------//
                             System.out.println("Select which bicycle you would like to remove:");
                             int removeIndex = validateInput(inv.getList().size()); //get index of
-                            Bicycle bicycleToRemove = inv.getList().get(removeIndex -1);
+                            Bicycle bicycleToRemove = inv.getList().get(removeIndex - 1);
                             System.out.println("Are you sure you want to remove " + "\"" + bicycleToRemove.getName().toUpperCase() + "\"" + " from the inventory list?");
                             System.out.println("1. Remove this bike from the list\n2. Return to main menu");
                             int remove = validateInput(2);
-                            if (remove ==1) {
+                            if (remove == 1) {
                                 inv.removeBicycleFromList(bicycleToRemove);
-                            }
-                            else {
-                                break;
                             }
 
                         }
@@ -134,7 +123,6 @@ public class Main {
                             String nameSearch = input.nextLine(); // take in user input for search
                             int indexOfSearch = inv.searchList(nameSearch); // get the index of the object that has a matching name as user input or return an index of -1 if they don't match
                             if (indexOfSearch == -1) { // the method returns -1 if a bike was not found
-                                input.nextLine(); // clear the scanner
                                 validIndex = false; // trigger the loop to ask again
                                 System.out.println("That bicycle could not be found. Please Try again.");
                             } else {
@@ -142,39 +130,37 @@ public class Main {
                                 found = inv.getList().get(indexOfSearch); // run the showSpecs method for the bicycle object in the arraylist found at the index returned
                                 found.showSpecs();
                                 System.out.println("""
-                                Would you like to purchase this bicycle?
-                                1. Yes
-                                2. No""");
+                                        Would you like to purchase this bicycle?
+                                        1. Yes
+                                        2. No""");
                                 int purchaseChoice = validateInput(2);
-                                if (purchaseChoice==1) {
+                                if (purchaseChoice == 1) {
                                     System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
                                     int print = validateInput(2);
-                                    if (print ==1){
+                                    if (print == 1) {
                                         saveReceipt(found);
                                     }
                                 }
                             }
                         } while (!validIndex); // loop to ensure the object is found
                     }
-                    break;
                 }
                 // end of case 1
 // --------------------------------------Create Custom Bicycle--------------------------------------------------------------------------------//
-                case 2: {
+                case 2 -> {
                     Bicycle newBike = createNewBicycle(); //create new bicycle
-                    if (inv.checkForDuplicateBicycles(inv.getList(), newBike)){
+                    if (inv.checkForDuplicateBicycles(inv.getList(), newBike)) {
                         Bicycle duplicatedBicycle = inv.returnDuplicatedBicycle(inv.getList(), newBike);
                         System.out.println("We have a bicycle called " + "\"" + duplicatedBicycle.getName().toUpperCase() + "\" that exactly matches the custom bicycle you've just made.");
                         System.out.println("""
-                            Would you like to view its specifications?
-                            1. Yes
-                            2. No""");
+                                Would you like to view its specifications?
+                                1. Yes
+                                2. No""");
                         int viewSpecs = validateInput(2);
-                        if (viewSpecs == 1){
+                        if (viewSpecs == 1) {
                             duplicatedBicycle.showSpecs();
                         }
-                    }
-                    else {
+                    } else {
                         System.out.println("Nice ride, we're creating your custom bicycle now!");
                         inv.addBicyclesToList(newBike); // add new bicycle to list
                         System.out.println();
@@ -185,24 +171,22 @@ public class Main {
                             1. Yes
                             2. No""");
                     int purchaseChoice = validateInput(2);
-                    if (purchaseChoice==1) {
+                    if (purchaseChoice == 1) {
                         System.out.println("Thanks for your purchase.\nWould you like a receipt?\n1.Yes\n2.No");
                         int print = validateInput(2);
-                        if (print ==1){
+                        if (print == 1) {
                             saveReceipt(newBike);
                         }
                     }
-                    else{
-                        break;
-                    }
-                    break;
                 } // end of case 2
+
 //----------------------------------------Purchases--------------------------------------------------------//
 
-                case 3: {
+                case 3 -> {
+
                     //print out list of receipts in directory
-                    for (int i = 0; i < r.receipts.size(); i++){
-                        System.out.println((i+1) + ". " + r.receipts.get(i).getName());
+                    for (int i = 0; i < r.receipts.size(); i++) {
+                        System.out.println((i + 1) + ". " + r.receipts.get(i).getName());
                     }
 
                     System.out.println("\nPlease select a receipt: ");
@@ -211,16 +195,22 @@ public class Main {
                     System.out.println("1. View receipt details");
                     System.out.println("2. Rename receipt");
                     int receiptChoice = validateInput(2);
-                    if (receiptChoice == 1){
+                    if (receiptChoice == 1) {
                         //view receipt details
-                        r.readValuesFromFile(r.receipts.get(viewReceipt-1));
-                    }
-                    else {
+                        r.readValuesFromFile(r.receipts.get(viewReceipt - 1));
+                    } else {
                         System.out.println("Rename the receipt by entering the new name below: ");
                         String newReceiptName = input.nextLine();
                         //rename file
-
-
+                        File renameFile = new File(newReceiptName + ".csv");
+                        boolean flag = r.receipts.get(viewReceipt).renameTo(renameFile);
+                        if (flag) {
+                            r.receipts.remove(r.receipts.get(viewReceipt));
+                            r.receipts.add(renameFile);
+                            System.out.println("File renamed to " + "\"" + newReceiptName.toUpperCase() + ".csv" + "\"" + " successfully");
+                        } else {
+                            System.out.println("Operation failed. Please check that name does not already exist.");
+                        }
                     }
                 } // end of case 3
             }// end of switch statement
@@ -297,7 +287,6 @@ public class Main {
         //display options to user to create custom bike
 
         System.out.println("Give your custom bicycle a name");
-        input.nextLine();
         String selectedName = input.nextLine();
 
         while (inv.nameCheck(inv.getList(), selectedName)) {
